@@ -32,4 +32,16 @@ public class Airport {
     public int hashCode() {
         return Objects.hash(id, nameAirPort, country, address);
     }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "id=" + id +
+                ", nameAirPort='" + nameAirPort + '\'' +
+                ", country='" + country + '\'' +
+                ", address=" + address +
+                ", airliners=" + airliners +
+                ", ticket=" + ticket +
+                '}';
+    }
 }

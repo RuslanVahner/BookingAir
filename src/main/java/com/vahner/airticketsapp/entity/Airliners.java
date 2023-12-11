@@ -29,4 +29,14 @@ public class Airliners {
     public int hashCode() {
         return Objects.hash(id, nameAirLin, airlinePrice);
     }
+
+    @Override
+    public String toString() {
+        return "Airliners{" +
+                "id=" + id +
+                ", nameAirLin='" + nameAirLin + '\'' +
+                ", airlinePrice=" + airlinePrice +
+                ", trips=" + trips +
+                '}';
+    }
 }

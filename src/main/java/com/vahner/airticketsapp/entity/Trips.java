@@ -32,4 +32,15 @@ public class Trips {
     public int hashCode() {
         return Objects.hash(id, nameTrips, numberTrips, distance, time);
     }
+
+    @Override
+    public String toString() {
+        return "Trips{" +
+                "id=" + id +
+                ", nameTrips='" + nameTrips + '\'' +
+                ", numberTrips=" + numberTrips +
+                ", distance=" + distance +
+                ", time=" + time +
+                '}';
+    }
 }

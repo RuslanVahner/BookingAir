@@ -37,4 +37,17 @@ public class Passenger {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, age, gender, balance, phone);
     }
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", balance=" + balance +
+                ", phone=" + phone +
+                '}';
+    }
 }
