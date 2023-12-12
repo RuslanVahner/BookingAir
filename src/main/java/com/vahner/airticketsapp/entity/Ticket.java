@@ -1,6 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
-import com.vahner.airticketsapp.entity.enums.ClasServis;
+import com.vahner.airticketsapp.entity.enums.ClasService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class Ticket {
     private char data;
     private boolean status;
     private Account account;
-    private ClasServis servis;
+    private ClasService service;
 
     @Override
     public boolean equals(Object o) {
@@ -28,12 +28,12 @@ public class Ticket {
         return status == ticket.status && Objects.equals(id, ticket.id) &&
                 Objects.equals(price, ticket.price) &&
                 Objects.equals(data, ticket.data) &&
-                servis == ticket.servis;
+                service == ticket.service;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, data, status, servis);
+        return Objects.hash(id, price, data, status, service);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Ticket {
                 ", data=" + data +
                 ", status=" + status +
                 ", account=" + account +
-                ", servis=" + servis +
+                ", service=" + service +
                 '}';
     }
 }

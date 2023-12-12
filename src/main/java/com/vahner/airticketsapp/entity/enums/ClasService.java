@@ -1,6 +1,6 @@
 package com.vahner.airticketsapp.entity.enums;
 
-public enum ClasServis {
+public enum ClasService {
     Economy,
     Business,
     First
