@@ -2,6 +2,7 @@ package com.vahner.airticketsapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -10,12 +11,13 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Airport {
     private UUID id;
     private String nameAirPort;
     private String country;
     private char address;
-    private Airliners airliners;
+    private Airline airliners;
     private Ticket ticket;
 
     @Override

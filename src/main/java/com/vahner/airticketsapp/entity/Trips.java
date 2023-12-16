@@ -2,6 +2,7 @@ package com.vahner.airticketsapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -9,13 +10,13 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Trips {
     private UUID id;
     private String nameTrips;
     private int numberTrips;
     private Double distance;
     private Double time;
-
 
     @Override
     public boolean equals(Object o) {
