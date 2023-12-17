@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,15 +11,32 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.*;
+
+@Entity
+@Table(name = "cart")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cart {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "total_cost")
     private BigDecimal totalCost;
+
+    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,
+    orphanRemoval = true,cascade = {MERGE, PERSIST, REFRESH})
     private List<Ticket> ticketList;
+
+    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
+    @Column(name = "onwer_id")
     private Passenger owner;
+
+    @Column(name = "is_active")
     private boolean isRefunded;
 
     @Override

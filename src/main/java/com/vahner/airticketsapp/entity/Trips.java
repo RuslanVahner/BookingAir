@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,15 +8,28 @@ import lombok.Setter;
 
 import java.util.Objects;
 import java.util.UUID;
+@Entity
+@Table(name = "trips")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trips {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "name_trips")
     private String nameTrips;
+
+    @Column(name = "number_trips")
     private int numberTrips;
+
+    @Column(name = "distance")
     private Double distance;
+
+    @Column(name = "time")
     private Double time;
 
     @Override

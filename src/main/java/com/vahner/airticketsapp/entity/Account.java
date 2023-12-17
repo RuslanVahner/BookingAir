@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,16 +10,35 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.*;
+
 @Setter
 @Getter
+@Entity
+@Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "login")
     private String login;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "balance")
     private BigDecimal balance;
+
+    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
+
+    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
+    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
     private Passenger passenger;
 
     @Override

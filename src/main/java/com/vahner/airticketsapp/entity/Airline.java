@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +10,28 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.*;
+
+@Entity
+@Table(name = "airline")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Airline {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "airline_name")
     private String airlinName;
+
+    @Column(name = "airline_price")
     private BigDecimal airlinePrice;
+
+    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
+    @JoinColumn(name = "trips_id", referencedColumnName = "id")
     private Trips trips;
 
     @Override
@@ -24,7 +39,8 @@ public class Airline {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Airline airliners = (Airline) o;
-        return Objects.equals(id, airliners.id) && Objects.equals(airlinName, airliners.airlinName) && Objects.equals(airlinePrice, airliners.airlinePrice);
+        return Objects.equals(id, airliners.id) && Objects.equals(airlinName, airliners.airlinName) &&
+                Objects.equals(airlinePrice, airliners.airlinePrice);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,16 +9,35 @@ import lombok.Setter;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.*;
+
+@Entity
+@Table(name = "airport")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Airport {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "name_airport")
     private String nameAirPort;
+
+    @Column(name = "country")
     private String country;
+
+    @Column(name = "address")
     private char address;
+
+    @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
+    @Column(name = "airline_id")
     private Airline airliners;
+
+    @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
+    @Column(name = "ticket_id")
     private Ticket ticket;
 
     @Override
