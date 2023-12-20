@@ -19,7 +19,7 @@ import static jakarta.persistence.CascadeType.*;
 @NoArgsConstructor
 public class Airport {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 

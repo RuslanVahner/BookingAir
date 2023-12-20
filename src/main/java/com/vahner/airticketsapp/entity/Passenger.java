@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Passenger {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 

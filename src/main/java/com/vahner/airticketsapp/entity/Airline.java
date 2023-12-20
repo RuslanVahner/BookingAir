@@ -20,7 +20,7 @@ import static jakarta.persistence.CascadeType.*;
 @NoArgsConstructor
 public class Airline {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
@@ -40,7 +40,7 @@ public class Airline {
         if (o == null || getClass() != o.getClass()) return false;
         Airline airliners = (Airline) o;
         return Objects.equals(id, airliners.id) && Objects.equals(airlinName, airliners.airlinName) &&
-                Objects.equals(airlinePrice, airliners.airlinePrice);
+               Objects.equals(airlinePrice, airliners.airlinePrice);
     }
 
     @Override

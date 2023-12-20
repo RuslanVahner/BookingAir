@@ -21,7 +21,7 @@ import static jakarta.persistence.CascadeType.*;
 @NoArgsConstructor
 public class Cart {
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
