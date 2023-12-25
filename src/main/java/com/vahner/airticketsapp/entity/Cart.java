@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.*;
@@ -30,7 +30,7 @@ public class Cart {
 
     @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,
     orphanRemoval = true,cascade = {MERGE, PERSIST, REFRESH})
-    private List<Ticket> ticketList;
+    private Set<Ticket> ticketSet;
 
     @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
     @Column(name = "onwer_id")
@@ -57,7 +57,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", totalCost=" + totalCost +
-                ", ticketList=" + ticketList +
+                ", ticketList=" + ticketSet +
                 ", owner=" + owner +
                 '}';
     }

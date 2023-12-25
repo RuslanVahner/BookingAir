@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum PassegerType {
-    Adult("Adult"),
-    Child("Child");
+    ADULT("Adult"),
+    CHILD("Child");
 
     private final String type;
 

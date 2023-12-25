@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum ClasService {
-    Economy("Economy"),
-    Business("Business"),
-    First("First");
+    ECONOMY("Economy"),
+    BUSINESS("Business"),
+    FIRST("First");
 
     private final String service;
 
