@@ -1,128 +1,128 @@
-databaseChangeLog:
-  - changeSet:
-      id: insert-test-data-trips
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Trips
-            columns:
-              - column: id
-                value: "4d1b8a2e-5406-11e2-8c99-0242ac120002"
-              - column: name_trips
-                value: "Paris"
-              - column: number_trips
-                value: 2345
-              - column: distance
-                value: 490
-              - column: time
-                value: 11.25
-  - changeSet:
-      id: insert-test-data-passenger
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Passenger
-            columns:
-              - column: id
-                value: '1763f054-5393-11ee-8c99-0242ac120002'
-              - column: first_name
-                value: "John"
-              - column: last_name
-                value: "'Doe'"
-              - column: age
-                value: 30
-              - column: phone
-                value: "+491712138637"
-              - column: email
-                value: "john.doe@example.com"
-  - changeSet:
-      id: insert-test-data-cart
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Cart
-            columns:
-              - column: id
-                value: '2d0aef7d-5406-11ee-8c99-0242ac120002'
-              - column: total_cost
-                value: "500.0"
-              - column: is_refunded
-                value: false
-              - column: owner_id
-                value: '1763f054-5393-11ee-8c99-0242ac120002'
-  - changeSet:
-      id: insert-test-data-account
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Account
-            columns:
-              - column: id
-                value: "64925a86-5406-11ee-8c99-0242ac120002"
-              - column: login
-                value: "John"
-              - column: password
-                value: "12345John"
-              - column: balance
-                value: "1000.0"
-              - column: cart_id
-                value: '2d0aef7d-5406-11ee-8c99-0242ac120002'
-              - column: passenger_id
-                value: '1763f054-5393-11ee-8c99-0242ac120002'
-  - changeSet:
-      id: insert-test-data-ticket
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Ticket
-            columns:
-              - column: id
-                value: "55b1a5d8-5406-11ee-8c99-0242ac120002"
-              - column: price
-                value: "153.80"
-              - column: data
-                value: "2024-01-05"
-              - column: is_active
-                value: true
-              - column: passenger_number
-                value: "323"
-              - column: account_id
-                value: "64925a86-5406-11ee-8c99-0242ac120002"
-              - column: service
-                value: "Economy"
-              - column: type
-                value: "Adult"
-  - changeSet:
-      id: insert-test-data-airline
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Airline
-            columns:
-              - column: id
-                value: "3f8d48e6-5406-11ee-8c99-0242ac120002"
-              - column: airlin_name
-                value: "Pegasus Airlines"
-              - column: airline_price
-                value: "100.0"
-              - column: trips_id
-                value: "4d1b8a2e-5406-11ee-8c99-0242ac120002"
-  - changeSet:
-      id: insert-test-data-airport
-      author: RuslanVahner
-      changes:
-        - insert:
-            tableName: Airport
-            columns:
-              - column: id
-                value: "50e525ec-5406-11ee-8c99-0242ac120002"
-              - column: name_airport
-                value: "Flughafen-Stuttgart"
-              - column: country
-                value: "Germany"
-              - column: address
-                value: "Flughafenstraße 32, 70629 Stuttgart"
-              - column: airline_id
-                value: "3f8d48e6-5406-11ee-8c99-0242ac120002"
-              - column: ticket_id
-                value: "64925a86-5406-11ee-8c99-0242ac120002"
+#databaseChangeLog:
+#  - changeSet:
+#      id: insert-test-data-trips
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Trips
+#            columns:
+#              - column: id
+#                value: "4d1b8a2e-5406-11e2-8c99-0242ac120002"
+#              - column: name_trips
+#                value: "Paris"
+#              - column: number_trips
+#                value: 2345
+#              - column: distance
+#                value: 490
+#              - column: time
+#                value: 11.25
+#  - changeSet:
+#      id: insert-test-data-passenger
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Passenger
+#            columns:
+#              - column: id
+#                value: '1763f054-5393-11ee-8c99-0242ac120002'
+#              - column: first_name
+#                value: "John"
+#              - column: last_name
+#                value: "'Doe'"
+#              - column: age
+#                value: 30
+#              - column: phone
+#                value: "+491712138637"
+#              - column: email
+#                value: "john.doe@example.com"
+#  - changeSet:
+#      id: insert-test-data-cart
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Cart
+#            columns:
+#              - column: id
+#                value: '2d0aef7d-5406-11ee-8c99-0242ac120002'
+#              - column: total_cost
+#                value: "500.0"
+#              - column: is_refunded
+#                value: false
+#              - column: owner_id
+#                value: '1763f054-5393-11ee-8c99-0242ac120002'
+#  - changeSet:
+#      id: insert-test-data-account
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Account
+#            columns:
+#              - column: id
+#                value: "64925a86-5406-11ee-8c99-0242ac120002"
+#              - column: login
+#                value: "John"
+#              - column: password
+#                value: "12345John"
+#              - column: balance
+#                value: "1000.0"
+#              - column: cart_id
+#                value: '2d0aef7d-5406-11ee-8c99-0242ac120002'
+#              - column: passenger_id
+#                value: '1763f054-5393-11ee-8c99-0242ac120002'
+#  - changeSet:
+#      id: insert-test-data-ticket
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Ticket
+#            columns:
+#              - column: id
+#                value: "55b1a5d8-5406-11ee-8c99-0242ac120002"
+#              - column: price
+#                value: "153.80"
+#              - column: data
+#                value: "2024-01-05"
+#              - column: is_active
+#                value: true
+#              - column: passenger_number
+#                value: "323"
+#              - column: account_id
+#                value: "64925a86-5406-11ee-8c99-0242ac120002"
+#              - column: service
+#                value: "Economy"
+#              - column: type
+#                value: "Adult"
+#  - changeSet:
+#      id: insert-test-data-airline
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Airline
+#            columns:
+#              - column: id
+#                value: "3f8d48e6-5406-11ee-8c99-0242ac120002"
+#              - column: airlin_name
+#                value: "Pegasus Airlines"
+#              - column: airline_price
+#                value: "100.0"
+#              - column: trips_id
+#                value: "4d1b8a2e-5406-11ee-8c99-0242ac120002"
+#  - changeSet:
+#      id: insert-test-data-airport
+#      author: RuslanVahner
+#      changes:
+#        - insert:
+#            tableName: Airport
+#            columns:
+#              - column: id
+#                value: "50e525ec-5406-11ee-8c99-0242ac120002"
+#              - column: name_airport
+#                value: "Flughafen-Stuttgart"
+#              - column: country
+#                value: "Germany"
+#              - column: address
+#                value: "Flughafenstraße 32, 70629 Stuttgart"
+#              - column: airline_id
+#                value: "3f8d48e6-5406-11ee-8c99-0242ac120002"
+#              - column: ticket_id
+#                value: "64925a86-5406-11ee-8c99-0242ac120002"

@@ -19,17 +19,17 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: number_trips
-                  type: INT
+                  type: VARCHAR(128)
                   constraints:
                     nullable: false
               - column:
-                  name: distance
-                  type: DOUBLE
+                  name: departure_time
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
-                  name: time
-                  type: DOUBLE
+                  name: arrival_time
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
   - changeSet:
