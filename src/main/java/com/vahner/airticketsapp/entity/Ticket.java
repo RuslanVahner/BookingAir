@@ -38,7 +38,7 @@ public class Ticket {
     @Column(name = "passenger_number")
     private int passegerNumber;
 
-    @Column(name = "account_id")
+    @JoinColumn(name = "account_id")
     @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
     private Account account;
 

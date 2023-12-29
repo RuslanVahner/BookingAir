@@ -28,15 +28,15 @@ public class Cart {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
 
-    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "account.cart",fetch = FetchType.LAZY,
     orphanRemoval = true,cascade = {MERGE, PERSIST, REFRESH})
     private Set<Ticket> ticketSet;
 
     @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
-    @Column(name = "onwer_id")
+    @JoinColumn(name = "owner_id")
     private Passenger owner;
 
-    @Column(name = "is_active")
+    @Column(name = "is_refunded")
     private boolean isRefunded;
 
     @Override

@@ -24,7 +24,7 @@ public class Airline {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "airline_name")
+    @Column(name = "airlin_name")
     private String airlinName;
 
     @Column(name = "airline_price")

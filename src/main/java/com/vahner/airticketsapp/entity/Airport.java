@@ -33,11 +33,11 @@ public class Airport {
     private char address;
 
     @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
-    @Column(name = "airline_id")
+    @JoinColumn(name = "airline_id")
     private Airline airliners;
 
     @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
-    @Column(name = "ticket_id")
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
     @Override

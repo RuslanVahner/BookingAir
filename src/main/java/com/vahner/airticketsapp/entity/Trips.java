@@ -24,28 +24,31 @@ public class Trips {
     private String nameTrips;
 
     @Column(name = "number_trips")
-    private int numberTrips;
+    private String numberTrips;
 
-    @Column(name = "distance")
-    private Double distance;
+    @Column(name = "departure_time")
+    private String departure;
 
-    @Column(name = "time")
-    private Double time;
+    @Column(name = "arrival_time")
+    private String arrival;
+
+    @Column(name = "flight_time")
+    private String flightTime;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Trips trips = (Trips) o;
-        return numberTrips == trips.numberTrips && Objects.equals(id, trips.id) &&
-                Objects.equals(nameTrips, trips.nameTrips) &&
-                Objects.equals(distance, trips.distance) &&
-                Objects.equals(time, trips.time);
+        return Objects.equals(id, trips.id) && Objects.equals(nameTrips, trips.nameTrips) &&
+               Objects.equals(numberTrips, trips.numberTrips) &&
+               Objects.equals(departure, trips.departure) && Objects.equals(arrival, trips.arrival) &&
+               Objects.equals(flightTime, trips.flightTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameTrips, numberTrips, distance, time);
+        return Objects.hash(id, nameTrips, numberTrips, departure, arrival, flightTime);
     }
 
     @Override
@@ -53,9 +56,10 @@ public class Trips {
         return "Trips{" +
                 "id=" + id +
                 ", nameTrips='" + nameTrips + '\'' +
-                ", numberTrips=" + numberTrips +
-                ", distance=" + distance +
-                ", time=" + time +
+                ", numberTrips='" + numberTrips + '\'' +
+                ", departure='" + departure + '\'' +
+                ", arrival='" + arrival + '\'' +
+                ", flightTime='" + flightTime + '\'' +
                 '}';
     }
 }
