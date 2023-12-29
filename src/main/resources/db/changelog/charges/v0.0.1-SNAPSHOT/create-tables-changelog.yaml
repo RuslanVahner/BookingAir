@@ -32,6 +32,11 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: flight_time
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
   - changeSet:
       id: create-passenger-table
       author: RuslanVahner
