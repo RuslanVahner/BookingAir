@@ -13,4 +13,4 @@ spring:
       ddl-auto: none
 
   liquibase:
-      change-log: classpath:db/changelog/charges/v0.0.1-SNAPSHOT/v0.0.1-master.xml
+      change-log: classpath:db/changelog/changes/v0.0.1-SNAPSHOT/v0.0.1-master.xml

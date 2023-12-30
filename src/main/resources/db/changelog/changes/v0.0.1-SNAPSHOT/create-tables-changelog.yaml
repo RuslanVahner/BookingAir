@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: BINARY(16)
+                  type: UUID
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -19,24 +19,25 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: number_trips
-                  type: VARCHAR(128)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
                   name: departure_time
-                  type: VARCHAR(255)
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: arrival_time
-                  type: VARCHAR(255)
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: flight_time
-                  type: VARCHAR(255)
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
+
   - changeSet:
       id: create-passenger-table
       author: RuslanVahner

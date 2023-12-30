@@ -28,7 +28,7 @@ public class Cart {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
 
-    @OneToMany(mappedBy = "account.cart",fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,
     orphanRemoval = true,cascade = {MERGE, PERSIST, REFRESH})
     private Set<Ticket> ticketSet;
 
