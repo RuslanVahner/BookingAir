@@ -30,14 +30,14 @@ public class Airport {
     private String country;
 
     @Column(name = "address")
-    private char address;
+    private String address;
 
     @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
     @JoinColumn(name = "airline_id")
     private Airline airliners;
 
-    @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
-    @JoinColumn(name = "ticket_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
 
     @Override

@@ -34,7 +34,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: flight_time
-                  type: VARCHAR(20)
+                  type: TIME
                   constraints:
                     nullable: false
   - changeSet:

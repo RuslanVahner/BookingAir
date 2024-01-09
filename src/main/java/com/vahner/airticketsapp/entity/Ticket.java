@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class Ticket {
     private BigDecimal price;
 
     @Column(name = "data")
-    private char data;
+    private LocalDateTime data;
 
     @Column(name = "is_active")
     private boolean isActive;

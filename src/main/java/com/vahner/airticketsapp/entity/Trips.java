@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
@@ -27,13 +28,13 @@ public class Trips {
     private int flightNumber;
 
     @Column(name = "departure_time")
-    private String departure;
+    private LocalDateTime departure;
 
     @Column(name = "arrival_time")
-    private String arrival;
+    private LocalDateTime arrival;
 
     @Column(name = "flight_time")
-    private String flightTime;
+    private LocalDateTime flightTime;
 
     @Override
     public boolean equals(Object o) {
