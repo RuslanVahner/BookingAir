@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: UUID
+                  type: BINARY(16)
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -18,8 +18,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: number_trips
-                  type: VARCHAR(255)
+                  name: flight_number
+                  type: INT
                   constraints:
                     nullable: false
               - column:
@@ -34,10 +34,9 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: flight_time
-                  type: TIMESTAMP
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
-
   - changeSet:
       id: create-passenger-table
       author: RuslanVahner
@@ -68,7 +67,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: phone
-                  type: VARCHAR(255)
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
               - column:
@@ -168,7 +167,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: data
-                  type: CHAR(1)
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
@@ -212,7 +211,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: airlin_name
+                  name: airline_name
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
@@ -254,7 +253,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: address
-                  type: CHAR(1)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
@@ -263,13 +262,5 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_airport_airline
                     referencedTableName: Airline
-                    referencedColumnNames: id
-                    nullable: false
-              - column:
-                  name: ticket_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_airport_ticket
-                    referencedTableName: Ticket
                     referencedColumnNames: id
                     nullable: false
