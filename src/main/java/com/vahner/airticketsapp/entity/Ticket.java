@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "ticket")
@@ -39,15 +38,25 @@ public class Ticket {
     @Column(name = "passenger_number")
     private int passegerNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "trip_id")
+    private Trips trip;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne
     @JoinColumn(name = "account_id")
-    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name = "airport_id")
+    private Airport airport;
 
     @Column(name = "service")
     @Enumerated(EnumType.STRING)
     private ClasService service;
-
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
@@ -78,6 +87,8 @@ public class Ticket {
                 ", isActive=" + isActive +
                 ", numbPasseger=" + passegerNumber +
                 ", account=" + account +
+                ", airport=" + airport +
+                ", trip=" + trip+
                 ", service=" + service +
                 ", type=" + type +
                 '}';

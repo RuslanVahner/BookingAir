@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-
-import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "cart")
@@ -28,13 +26,12 @@ public class Cart {
     @Column(name = "total_cost")
     private BigDecimal totalCost;
 
-    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,
-    orphanRemoval = true,cascade = {MERGE, PERSIST, REFRESH})
-    private Set<Ticket> ticketSet;
-
-    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private Passenger owner;
+
+    @OneToMany(mappedBy = "cart")
+    private List<Ticket> tickets;
 
     @Column(name = "is_refunded")
     private boolean isRefunded;
@@ -44,12 +41,15 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(id, cart.id);
+        return isRefunded == cart.isRefunded &&
+                Objects.equals(id, cart.id) &&
+                Objects.equals(totalCost, cart.totalCost) &&
+                Objects.equals(owner, cart.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, totalCost, owner, isRefunded);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", totalCost=" + totalCost +
-                ", ticketList=" + ticketSet +
                 ", owner=" + owner +
+                ", isRefunded=" + isRefunded +
                 '}';
     }
 }

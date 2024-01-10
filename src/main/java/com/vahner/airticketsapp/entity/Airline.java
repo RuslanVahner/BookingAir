@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "airline")
@@ -25,35 +24,37 @@ public class Airline {
     private UUID id;
 
     @Column(name = "airline_name")
-    private String airlinName;
+    private String airlineName;
 
     @Column(name = "airline_price")
     private BigDecimal airlinePrice;
 
-    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
-    @JoinColumn(name = "trips_id", referencedColumnName = "id")
-    private Trips trips;
+    @OneToMany(mappedBy = "airline")
+    private List<Trips> trips;
+
+    @OneToMany(mappedBy = "airline")
+    private List<Airport> airports;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Airline airliners = (Airline) o;
-        return Objects.equals(id, airliners.id) && Objects.equals(airlinName, airliners.airlinName) &&
-               Objects.equals(airlinePrice, airliners.airlinePrice);
+        Airline airline = (Airline) o;
+        return Objects.equals(id, airline.id) && Objects.equals(airlineName, airline.airlineName) && Objects.equals(airlinePrice, airline.airlinePrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, airlinName, airlinePrice);
+        return Objects.hash(id, airlineName, airlinePrice);
     }
 
     @Override
     public String toString() {
-        return "Airliners{" +
+        return "Airline{" +
                 "id=" + id +
-                ", nameAirLin='" + airlinName + '\'' +
+                ", airlineName='" + airlineName + '\'' +
                 ", airlinePrice=" + airlinePrice +
+                ", airports=" + airports +
                 ", trips=" + trips +
                 '}';
     }

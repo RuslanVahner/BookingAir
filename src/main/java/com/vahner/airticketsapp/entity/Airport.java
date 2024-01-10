@@ -6,10 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "airport")
@@ -32,13 +31,12 @@ public class Airport {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(cascade = {MERGE,PERSIST,REFRESH})
+    @ManyToOne
     @JoinColumn(name = "airline_id")
-    private Airline airliners;
+    private Airline airline;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
-    private Ticket ticket;
+    @OneToMany(mappedBy = "airport")
+    private List<Ticket> tickets;
 
     @Override
     public boolean equals(Object o) {
@@ -61,9 +59,8 @@ public class Airport {
                 "id=" + id +
                 ", nameAirPort='" + nameAirPort + '\'' +
                 ", country='" + country + '\'' +
-                ", address=" + address +
-                ", airliners=" + airliners +
-                ", ticket=" + ticket +
+                ", tickets=" + tickets +
+                ", airline=" + airline +
                 '}';
     }
 }

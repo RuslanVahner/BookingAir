@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-import static jakarta.persistence.CascadeType.*;
-
 @Setter
 @Getter
 @Entity
@@ -33,12 +31,12 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @OneToOne(cascade = {MERGE, PERSIST, REFRESH})
-    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
     @Override

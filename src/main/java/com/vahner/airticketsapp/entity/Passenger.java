@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
@@ -35,6 +36,9 @@ public class Passenger {
     @Column(name = "phone")
     private String phone;
 
+    @OneToMany(mappedBy = "passenger")
+    private List<Account> accounts;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,6 +63,7 @@ public class Passenger {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", phone=" + phone +
+                ", accounts=" + accounts +
                 '}';
     }
 }

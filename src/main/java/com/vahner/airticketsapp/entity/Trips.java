@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
@@ -36,20 +37,27 @@ public class Trips {
     @Column(name = "flight_time")
     private LocalDateTime flightTime;
 
+    @ManyToOne
+    @JoinColumn(name = "airline_id")
+    private Airline airline;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Ticket> tickets;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Trips trips = (Trips) o;
-        return Objects.equals(id, trips.id) && Objects.equals(nameTrips, trips.nameTrips) &&
-               Objects.equals(flightNumber, trips.flightNumber) &&
-               Objects.equals(departure, trips.departure) && Objects.equals(arrival, trips.arrival) &&
-               Objects.equals(flightTime, trips.flightTime);
+        return flightNumber == trips.flightNumber && // Исправлено здесь
+                Objects.equals(id, trips.id) && Objects.equals(nameTrips, trips.nameTrips) &&
+                Objects.equals(departure, trips.departure) && Objects.equals(arrival, trips.arrival) &&
+                Objects.equals(flightTime, trips.flightTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameTrips, flightNumber, departure, arrival, flightTime);
+        return Objects.hash(id, nameTrips, flightNumber, departure, arrival, flightTime); // Исправлено здесь
     }
 
     @Override
