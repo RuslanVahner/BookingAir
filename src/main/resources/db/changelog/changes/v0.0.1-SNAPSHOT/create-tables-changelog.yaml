@@ -213,6 +213,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: account_status
+                  type: ENUM( 'ACTIVE', 'BLOCKED','REMOVED')
+                  constraints:
+                    nullable: false
+              - column:
                   name: cart_id
                   type: BINARY(16)
                   constraints:

@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import com.vahner.airticketsapp.entity.enums.AccountStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Column(name = "account_status")
+    @Enumerated(EnumType.ORDINAL)
+    private AccountStatus status;
+
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
@@ -44,14 +49,12 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(login, account.login) &&
-                Objects.equals(password, account.password) &&
-                Objects.equals(balance, account.balance);
+        return Objects.equals(id, account.id) && Objects.equals(login, account.login) && Objects.equals(password, account.password) && Objects.equals(balance, account.balance) && status == account.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, balance);
+        return Objects.hash(id, login, password, balance, status);
     }
 
     @Override
@@ -61,6 +64,7 @@ public class Account {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
+                ", status=" + status +
                 ", cart=" + cart +
                 ", passenger=" + passenger +
                 '}';

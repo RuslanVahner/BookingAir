@@ -5,7 +5,8 @@
                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="create-sequence-for-uuid-generator" author="RuslanVahner">
-        <createSequence sequenceName="seq_for_uuid_generator" schemaName="public" cycle="true" startValue="1000"/>
+        <createSequence sequenceName="seq_for_uuid_generator"
+                        schemaName="public" cycle="true"
+                        startValue="1000"/>
     </changeSet>
-
 </databaseChangeLog>

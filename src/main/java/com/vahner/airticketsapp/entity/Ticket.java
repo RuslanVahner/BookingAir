@@ -1,6 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
-import com.vahner.airticketsapp.entity.enums.ClasService;
+import com.vahner.airticketsapp.entity.enums.ClasServiceType;
 import com.vahner.airticketsapp.entity.enums.PassegerType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -56,7 +56,7 @@ public class Ticket {
 
     @Column(name = "service")
     @Enumerated(EnumType.STRING)
-    private ClasService service;
+    private ClasServiceType service;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

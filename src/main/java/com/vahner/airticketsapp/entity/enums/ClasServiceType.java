@@ -3,14 +3,14 @@ package com.vahner.airticketsapp.entity.enums;
 import lombok.Getter;
 
 @Getter
-public enum ClasService {
+public enum ClasServiceType {
     ECONOMY("Economy"),
     BUSINESS("Business"),
     FIRST("First");
 
     private final String service;
 
-    ClasService(String service) {
+    ClasServiceType(String service) {
         this.service = service;
     }
 }
