@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -19,6 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Account {
     @Id
+    @JdbcTypeCode(SqlTypes.BINARY)
+   // @GenericGenerator(name = "UUID", type = org.hibernate.id.uuid.UuidGenerator.class)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
