@@ -17,20 +17,16 @@ public class AirlineController {
 
     private final AirlineService airlineService;
 
-    @GetMapping("/airline")
-    public ResponseEntity<List<Airline>> getAll() {
-        return new ResponseEntity<>(airlineService.getAllAirlines(), HttpStatus.OK);
-    }
-
     @GetMapping("/get/{id}")
     public Airline getAirlineById(@PathVariable UUID id) {
         return airlineService.getAirlineById(id);
     }
 
     @GetMapping
-    public List<Airline> getAllAirlines() {
-        return airlineService.getAllAirlines();
+    public ResponseEntity<List<Airline>> getAllAirlines() {
+        return new ResponseEntity<>(airlineService.getAllAirlines(), HttpStatus.OK);
     }
+
 
     @PostMapping("/create")
     public Airline createAirline(@RequestBody Airline airline) {
