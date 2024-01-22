@@ -5,14 +5,14 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/create-tables-changelog.yaml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/drop-tables-changelog.yaml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_trips_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_passenger_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_cart_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_account_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_ticket_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_airline_data.sql"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_airport_data.sql"/>
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/create-sequence.xml"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_passenger_data.sql"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_account_data.sql"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_cart_data.sql"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_airline_data.sql"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_trips_1_data.sql"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_trips_2_data.sql"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_ticket_data.sql"/>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/insert_airport_data.sql"/>
 
 </databaseChangeLog>

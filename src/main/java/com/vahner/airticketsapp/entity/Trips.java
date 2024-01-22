@@ -1,26 +1,24 @@
 package com.vahner.airticketsapp.entity;
 
+import com.vahner.airticketsapp.entity.enums.TripsType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
-@Table(name = "trips")
+@Table(name = "trip")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trips {
     @Id
-    @JdbcTypeCode(SqlTypes.BINARY)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
@@ -40,6 +38,10 @@ public class Trips {
     @Column(name = "flight_time")
     private LocalDateTime flightTime;
 
+    @Column(name = "trips_status")
+    @Enumerated(EnumType.STRING)
+    private TripsType tripsType;
+
     @ManyToOne
     @JoinColumn(name = "airline_id")
     private Airline airline;
@@ -52,15 +54,17 @@ public class Trips {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Trips trips = (Trips) o;
-        return flightNumber == trips.flightNumber && // Исправлено здесь
-                Objects.equals(id, trips.id) && Objects.equals(nameTrips, trips.nameTrips) &&
-                Objects.equals(departure, trips.departure) && Objects.equals(arrival, trips.arrival) &&
-                Objects.equals(flightTime, trips.flightTime);
+        return flightNumber == trips.flightNumber && Objects.equals(id, trips.id)
+                && Objects.equals(nameTrips, trips.nameTrips)
+                && Objects.equals(departure, trips.departure)
+                && Objects.equals(arrival, trips.arrival)
+                && Objects.equals(flightTime, trips.flightTime)
+                && tripsType == trips.tripsType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameTrips, flightNumber, departure, arrival, flightTime); // Исправлено здесь
+        return Objects.hash(id, nameTrips, flightNumber, departure, arrival, flightTime, tripsType);
     }
 
     @Override
@@ -68,10 +72,13 @@ public class Trips {
         return "Trips{" +
                 "id=" + id +
                 ", nameTrips='" + nameTrips + '\'' +
-                ", flightNumber='" + flightNumber + '\'' +
-                ", departure='" + departure + '\'' +
-                ", arrival='" + arrival + '\'' +
-                ", flightTime='" + flightTime + '\'' +
+                ", flightNumber=" + flightNumber +
+                ", departure=" + departure +
+                ", arrival=" + arrival +
+                ", flightTime=" + flightTime +
+                ", tripsType=" + tripsType +
+                ", airline=" + airline +
+                ", tickets=" + tickets +
                 '}';
     }
 }

@@ -39,6 +39,75 @@ databaseChangeLog:
                     nullable: true
 
   - changeSet:
+      id: create-account-table
+      author: RuslanVahner
+      changes:
+        - createTable:
+            tableName: Account
+            columns:
+              - column:
+                  name: id
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: login
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: DECIMAL
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_status
+                  type: ENUM( 'ACTIVE', 'BLOCKED','REMOVED')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: passenger_id
+                  type: BINARY(16)
+                  constraints:
+                    foreignKeyName: fk_account_passenger
+                    referencedTableName: Passenger
+                    referencedColumnNames: id
+                    nullable: false
+
+  - changeSet:
+      id: create-cart-table
+      author: RuslanVahner
+      changes:
+        - createTable:
+            tableName: Cart
+            columns:
+              - column:
+                  name: id
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: total_cost
+                  type: DECIMAL
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: BINARY(16)
+                  constraints:
+                    foreignKeyName: fk_cart_account
+                    referencedTableName: Account
+                    referencedColumnNames: id
+                    nullable: false
+
+  - changeSet:
       id: create-airline-table
       author: RuslanVahner
       changes:
@@ -61,6 +130,112 @@ databaseChangeLog:
                   type: DECIMAL
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: create-trip-table
+      author: RuslanVahner
+      changes:
+        - createTable:
+            tableName: Trip
+            columns:
+              - column:
+                  name: id
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name_trips
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flight_number
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: departure_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: arrival_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flight_time
+                  type: TIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: trips_status
+                  type: ENUM('ACTIVE', 'CANCELLED', 'TRANSFERRED')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: airline_id
+                  type: BINARY(16)
+                  constraints:
+                    foreignKeyName: fk_trips_airline
+                    referencedTableName: Airline
+                    referencedColumnNames: id
+                    nullable: false
+
+  - changeSet:
+      id: create-ticket-table
+      author: RuslanVahner
+      changes:
+        - createTable:
+            tableName: Ticket
+            columns:
+              - column:
+                  name: id
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket_number
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: BINARY(16)
+                  constraints:
+                    foreignKeyName: fk_ticket_account
+                    referencedTableName: Account
+                    referencedColumnNames: id
+                    nullable: false
+              - column:
+                  name: service
+                  type: ENUM('ECONOMY', 'BUSINESS', 'FIRST')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: ENUM('ADULT', 'CHILD')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: trip_id
+                  type: BINARY(16)
+                  constraints:
+                    foreignKeyName: fk_ticket_trip
+                    referencedTableName: Trip
+                    referencedColumnNames: id
 
   - changeSet:
       id: create-airport-table
@@ -105,205 +280,5 @@ databaseChangeLog:
                     foreignKeyName: fk_airport_ticket
                     referencedTableName: Ticket
                     referencedColumnNames: id
-
-  - changeSet:
-      id: create-trips-table
-      author: RuslanVahner
-      changes:
-        - createTable:
-            tableName: Trips
-            columns:
-              - column:
-                  name: id
-                  type: BINARY(16)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name_trips
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: flight_number
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: departure_time
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: arrival_time
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: flight_time
-                  type: TIME
-                  constraints:
-                    nullable: false
-              - column:
-                  name: airline_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_trips_airline
-                    referencedTableName: Airline
-                    referencedColumnNames: id
-
-  - changeSet:
-      id: create-cart-table
-      author: RuslanVahner
-      changes:
-        - createTable:
-            tableName: Cart
-            columns:
-              - column:
-                  name: id
-                  type: BINARY(16)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: total_cost
-                  type: DECIMAL
-                  constraints:
-                    nullable: false
-              - column:
-                  name: is_refunded
-                  type: BOOLEAN
-                  constraints:
-                    nullable: false
-              - column:
-                  name: owner_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_cart_passenger
-                    referencedTableName: Passenger
-                    referencedColumnNames: id
                     nullable: false
 
-  - changeSet:
-      id: create-account-table
-      author: RuslanVahner
-      changes:
-        - createTable:
-            tableName: Account
-            columns:
-              - column:
-                  name: id
-                  type: BINARY(16)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: login
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: password
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: balance
-                  type: DECIMAL
-                  constraints:
-                    nullable: false
-              - column:
-                  name: account_status
-                  type: ENUM( 'ACTIVE', 'BLOCKED','REMOVED')
-                  constraints:
-                    nullable: false
-              - column:
-                  name: cart_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_account_cart
-                    referencedTableName: Cart
-                    referencedColumnNames: id
-                    nullable: false
-              - column:
-                  name: passenger_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_account_passenger
-                    referencedTableName: Passenger
-                    referencedColumnNames: id
-                    nullable: false
-
-  - changeSet:
-      id: create-ticket-table
-      author: RuslanVahner
-      changes:
-        - createTable:
-            tableName: Ticket
-            columns:
-              - column:
-                  name: id
-                  type: BINARY(16)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: price
-                  type: DECIMAL(10, 2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: data
-                  type: TIMESTAMP
-                  constraints:
-                    nullable: false
-              - column:
-                  name: is_active
-                  type: BOOLEAN
-                  constraints:
-                    nullable: false
-              - column:
-                  name: passenger_number
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: account_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_ticket_account
-                    referencedTableName: Account
-                    referencedColumnNames: id
-                    nullable: false
-              - column:
-                  name: service
-                  type: ENUM('Economy', 'Business', 'First')
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type
-                  type: ENUM('Adult', 'Child')
-                  constraints:
-                    nullable: false
-              - column:
-                  name: airport_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_ticket_airport
-                    referencedTableName: Airport
-                    referencedColumnNames: id
-                    nullable: false
-              - column:
-                  name: trip_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_ticket_trip
-                    referencedTableName: Trips
-                    referencedColumnNames: id
-              - column:
-                  name: cart_id
-                  type: BINARY(16)
-                  constraints:
-                    foreignKeyName: fk_ticket_cart
-                    referencedTableName: Cart
-                    referencedColumnNames: id

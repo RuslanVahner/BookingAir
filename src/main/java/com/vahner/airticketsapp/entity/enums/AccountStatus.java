@@ -4,16 +4,14 @@ import lombok.Getter;
 
 @Getter
 public enum AccountStatus {
-    ACTIVE(0),
-    BLOCKED(2),
-    REMOVED(4);
-    private final int value;
+    ACTIVE("ACTIVE"),
+    BLOCKED("BLOCKED"),
+    REMOVED("REMOVED");
 
-    AccountStatus(int value) {
+    private final String value;
+
+    AccountStatus(String value) {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
 }

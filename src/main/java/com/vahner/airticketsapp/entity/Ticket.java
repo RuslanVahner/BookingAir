@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vahner.airticketsapp.entity.enums.ClasServiceType;
 import com.vahner.airticketsapp.entity.enums.PassegerType;
 import jakarta.persistence.*;
@@ -7,14 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
-
 
 @Entity
 @Table(name = "ticket")
@@ -24,8 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Ticket {
     @Id
-    @JdbcTypeCode(SqlTypes.BINARY)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
@@ -35,27 +32,17 @@ public class Ticket {
     @Column(name = "data")
     private LocalDateTime data;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "ticket_number")
+    private int ticketNumber;
 
-    @Column(name = "passenger_number")
-    private int passegerNumber;
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trips trip;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
-
-    @ManyToOne
-    @JoinColumn(name = "airport_id")
-    private Airport airport;
 
     @Column(name = "service")
     @Enumerated(EnumType.STRING)
@@ -70,15 +57,14 @@ public class Ticket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return data == ticket.data && isActive == ticket.isActive &&
-                passegerNumber == ticket.passegerNumber &&
+        return data == ticket.data && ticketNumber == ticket.ticketNumber &&
                 Objects.equals(id, ticket.id) && Objects.equals(price, ticket.price) &&
                 service == ticket.service && type == ticket.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, data, isActive, passegerNumber, service, type);
+        return Objects.hash(id, price, data, ticketNumber, service, type);
     }
 
     @Override
@@ -87,11 +73,9 @@ public class Ticket {
                 "id=" + id +
                 ", price=" + price +
                 ", data=" + data +
-                ", isActive=" + isActive +
-                ", numbPasseger=" + passegerNumber +
+                ", numbPasseger=" + ticketNumber +
                 ", account=" + account +
-                ", airport=" + airport +
-                ", trip=" + trip+
+                ", trip=" + trip +
                 ", service=" + service +
                 ", type=" + type +
                 '}';

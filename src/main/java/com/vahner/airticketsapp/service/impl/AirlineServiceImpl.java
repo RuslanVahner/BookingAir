@@ -6,6 +6,7 @@ import com.vahner.airticketsapp.service.interf.AirlineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -16,11 +17,18 @@ public class AirlineServiceImpl implements AirlineService {
 
     @Override
     public Airline getAirlineById(UUID id) {
-        return airlineRepository.getAirlineById(id);
+        return (Airline) airlineRepository.findAll();
     }
 
     @Override
-    public Airline create(Airline airline) {
+    public List<Airline> getAllAirlines() {
+        return airlineRepository.findAll();
+    }
+
+    @Override
+    public Airline createAirline(Airline airline) {
         return airlineRepository.save(airline);
     }
+
+
 }

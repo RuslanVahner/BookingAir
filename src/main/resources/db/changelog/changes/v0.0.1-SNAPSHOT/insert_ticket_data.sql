@@ -1,5 +1,10 @@
-INSERT INTO Ticket (flight_number, passenger_id, seat_number, price)
-VALUES
-    (2345, LAST_INSERT_ID(), 'A123', 150.00),
-    (9773, LAST_INSERT_ID(), 'B456', 200.00),
-    (121, LAST_INSERT_ID(), 'C789', 180.00);
+INSERT INTO Ticket (id, data, ticket_number, service, type, price, account_id, trip_id)
+SELECT UNHEX(REPLACE(UUID(), '-', '')),
+       '2024-02-01 08:00:00',
+       234,
+       'ECONOMY',
+       'ADULT',
+       100.00,
+       (SELECT id FROM Account LIMIT 1),(SELECT id FROM Trip LIMIT 1);
+
+

@@ -1,17 +1,17 @@
 package com.vahner.airticketsapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -22,8 +22,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Account {
     @Id
-    @JdbcTypeCode(SqlTypes.BINARY)
-   // @GenericGenerator(name = "UUID", type = org.hibernate.id.uuid.UuidGenerator.class)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
@@ -38,15 +36,18 @@ public class Account {
     private BigDecimal balance;
 
     @Column(name = "account_status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @OneToMany(mappedBy = "account")
+    private Set<Ticket> tickets;
+
+    @OneToMany(mappedBy = "account")
+    private List<Cart> carts;
 
     @ManyToOne
     @JoinColumn(name = "passenger_id")
+    @JsonBackReference
     private Passenger passenger;
 
     @Override
@@ -70,7 +71,7 @@ public class Account {
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
                 ", status=" + status +
-                ", cart=" + cart +
+                ", carts=" + carts +
                 ", passenger=" + passenger +
                 '}';
     }

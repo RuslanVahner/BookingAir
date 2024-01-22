@@ -8,11 +8,9 @@ spring:
     password: 49vobollo1403V
   jpa:
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
   liquibase:
-    change-log: classpath:/db/changelog/changes/v0.0.1-SNAPSHOT/v0.0.1-master.xml
+    change-log: classpath:db/changelog/changes/v0.0.1-SNAPSHOT/v0.0.1-master.xml
+

@@ -16,7 +16,7 @@ public class PassengerController {
     private final PassengerService passengerService;
 
     @GetMapping("/{id}")
-    public Passenger getPassengerById(@PathVariable("id") UUID id) {
+    public Passenger getPassengerById(@PathVariable UUID id) {
         return passengerService.getPassengerById(id);
     }
     @GetMapping
@@ -24,7 +24,7 @@ public class PassengerController {
         return passengerService.getPassengers();
     }
 
-    @PostMapping
+    @PostMapping("createPassenger")
     public Passenger creatPassengers(Passenger passenger){
         return passengerService.create(passenger);
     }
