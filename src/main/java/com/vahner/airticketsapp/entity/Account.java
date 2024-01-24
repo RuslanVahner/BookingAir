@@ -1,6 +1,5 @@
 package com.vahner.airticketsapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,13 +13,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Entity
 @Setter
 @Getter
-@Entity
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -43,19 +43,20 @@ public class Account {
     private Set<Ticket> tickets;
 
     @OneToMany(mappedBy = "account")
-    private List<Cart> carts;
+    private Set<Cart> carts;
 
-    @ManyToOne
-    @JoinColumn(name = "passenger_id")
-    @JsonBackReference
-    private Passenger passenger;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Passenger> passengers;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(login, account.login) && Objects.equals(password, account.password) && Objects.equals(balance, account.balance) && status == account.status;
+        return Objects.equals(id, account.id) && Objects.equals(login, account.login)
+                && Objects.equals(password, account.password)
+                && Objects.equals(balance, account.balance)
+                && status == account.status;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Account {
                 ", balance=" + balance +
                 ", status=" + status +
                 ", carts=" + carts +
-                ", passenger=" + passenger +
+                ", passengers=" + passengers +
                 '}';
     }
 }

@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
-@Table(name = "trip")
+@Table(name = "trips")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trips {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -42,11 +43,10 @@ public class Trips {
     @Enumerated(EnumType.STRING)
     private TripsType tripsType;
 
-    @ManyToOne
-    @JoinColumn(name = "airline_id")
-    private Airline airline;
+    @OneToMany(mappedBy = "trips", cascade = CascadeType.ALL)
+    private List<Airline> airlines;
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     @Override
@@ -77,7 +77,7 @@ public class Trips {
                 ", arrival=" + arrival +
                 ", flightTime=" + flightTime +
                 ", tripsType=" + tripsType +
-                ", airline=" + airline +
+                ", airlines=" + airlines +
                 ", tickets=" + tickets +
                 '}';
     }

@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Airport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -31,11 +32,7 @@ public class Airport {
     @Column(name = "address")
     private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "airline_id")
-    private Airline airline;
-
-    @OneToMany
+    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     @Override
@@ -60,7 +57,6 @@ public class Airport {
                 ", nameAirPort='" + nameAirPort + '\'' +
                 ", country='" + country + '\'' +
                 ", tickets=" + tickets +
-                ", airline=" + airline +
                 '}';
     }
 }

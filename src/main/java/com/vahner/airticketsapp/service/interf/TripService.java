@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TripService {
-    Trips getTripsById(UUID id);
-
+    Trips getTripsById(UUID uud);
     List<Trips> getTrips();
-
     Trips createTrip(Trips trips);
+
 }

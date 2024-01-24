@@ -16,13 +16,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "ticket")
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ticket {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
 
@@ -37,10 +38,15 @@ public class Ticket {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
+    @JoinColumn(name = "trips_id")
     private Trips trip;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "airport_id")
+    private Airport airport;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 

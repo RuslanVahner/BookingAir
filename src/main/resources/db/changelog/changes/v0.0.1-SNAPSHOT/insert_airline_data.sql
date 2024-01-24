@@ -1,4 +1,2 @@
-INSERT INTO Airline (id, airline_name, airline_price)
-VALUES (UNHEX(REPLACE(UUID(), '-', '')),'Pegasus Airlines', 50.00),
-       (UNHEX(REPLACE(UUID(), '-', '')),'Ryanair', 50.00),
-       (UNHEX(REPLACE(UUID(), '-', '')),'Alitalia', 50.00);
+INSERT INTO Airline (id, airline_name, airline_price, trips_id)
+VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'Pegasus Airlines', 50.00, (SELECT id FROM Trips LIMIT 1));

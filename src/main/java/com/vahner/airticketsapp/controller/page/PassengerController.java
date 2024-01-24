@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/passengers")
+@RequestMapping("/api/passengers")
 @RestController
 @RequiredArgsConstructor
 public class PassengerController {
@@ -16,16 +16,17 @@ public class PassengerController {
     private final PassengerService passengerService;
 
     @GetMapping("/{id}")
-    public Passenger getPassengerById(@PathVariable UUID id) {
+    public Passenger getPassengerById(@PathVariable("id") UUID id) {
         return passengerService.getPassengerById(id);
     }
+
     @GetMapping
     public List<Passenger> getAllPassenger() {
         return passengerService.getPassengers();
     }
 
-    @PostMapping("createPassenger")
-    public Passenger creatPassengers(Passenger passenger){
+    @PostMapping("/createPassenger")
+    public Passenger creatPassengers(@RequestBody Passenger passenger){
         return passengerService.create(passenger);
     }
 }

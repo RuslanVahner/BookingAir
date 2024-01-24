@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "airline")
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Airline {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "airline_name")
@@ -29,18 +29,17 @@ public class Airline {
     @Column(name = "airline_price")
     private BigDecimal airlinePrice;
 
-    @OneToMany(mappedBy = "airline")
-    private List<Trips> trips;
-
-    @OneToMany(mappedBy = "airline")
-    private List<Airport> airports;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trips_id")
+    private Trips trips;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Airline airline = (Airline) o;
-        return Objects.equals(id, airline.id) && Objects.equals(airlineName, airline.airlineName) && Objects.equals(airlinePrice, airline.airlinePrice);
+        return Objects.equals(id, airline.id) && Objects.equals(airlineName, airline.airlineName)
+                && Objects.equals(airlinePrice, airline.airlinePrice);
     }
 
     @Override
@@ -54,7 +53,6 @@ public class Airline {
                 "id=" + id +
                 ", airlineName='" + airlineName + '\'' +
                 ", airlinePrice=" + airlinePrice +
-                ", airports=" + airports +
                 ", trips=" + trips +
                 '}';
     }

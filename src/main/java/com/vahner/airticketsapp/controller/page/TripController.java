@@ -17,9 +17,9 @@ public class TripController {
 
     private final TripRepository tripRepository;
 
-    @GetMapping("{id}")
-    public Trips getTripsById(@PathVariable UUID id ){
-        return tripRepository.getReferenceById(id);
+    @GetMapping("{uuid}")
+    public Trips getTripsById(@PathVariable("uuid") UUID uuid) {
+        return tripRepository.getReferenceById(uuid);
     }
-
 }
+

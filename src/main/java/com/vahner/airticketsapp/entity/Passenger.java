@@ -1,13 +1,11 @@
 package com.vahner.airticketsapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
@@ -17,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Passenger {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,9 +36,10 @@ public class Passenger {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "passenger")
-    @JsonManagedReference
-    private List<Account> accounts;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+
 
     @Override
     public boolean equals(Object o) {
@@ -65,7 +65,7 @@ public class Passenger {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", phone=" + phone +
-                ", accounts=" + accounts +
+                ", account=" + account +
                 '}';
     }
 }

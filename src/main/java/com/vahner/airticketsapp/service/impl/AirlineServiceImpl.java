@@ -16,8 +16,8 @@ public class AirlineServiceImpl implements AirlineService {
     private final AirlineRepository airlineRepository;
 
     @Override
-    public Airline getAirlineById(UUID id) {
-        return (Airline) airlineRepository.findAll();
+    public Airline getAirlineById(UUID uuid) {
+        return airlineRepository.getAirlineById(uuid);
     }
 
     @Override
@@ -29,6 +29,5 @@ public class AirlineServiceImpl implements AirlineService {
     public Airline createAirline(Airline airline) {
         return airlineRepository.save(airline);
     }
-
 
 }
