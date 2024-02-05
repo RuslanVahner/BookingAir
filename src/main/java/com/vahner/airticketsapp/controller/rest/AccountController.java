@@ -22,27 +22,23 @@ public class AccountController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AccountDto> getAccountById(@Uuid @PathVariable("uuid") String uuid) {
-        AccountDto accountDto = accountService.getAccountById(uuid);
-        return ResponseEntity.ok(accountDto);
+    public AccountDto getAccountById(@Uuid @PathVariable("uuid") String uuid) {
+        return accountService.getAccountById(uuid);
     }
 
     @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts() {
-        List<AccountDto> accountDto = accountService.getAccounts();
-        return ResponseEntity.ok(accountDto);
+    public List<AccountDto> getAccounts() {
+        return accountService.getAccounts();
     }
 
     @PostMapping("/createAccount")
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
-        AccountDto createdAccountDto = accountService.create(accountDto);
-        return ResponseEntity.ok(createdAccountDto);
+    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
+        return accountService.create(accountDto);
     }
 
     @PutMapping("/updateAccount/{uuid}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable UUID uuid, @RequestBody AccountDto accountDto) {
-        AccountDto updatedAccountDto = accountService.updateAccount(uuid, accountDto);
-        return ResponseEntity.ok(updatedAccountDto);
+    public AccountDto updateAccount(@PathVariable UUID uuid, @RequestBody AccountDto accountDto) {
+        return accountService.updateAccount(uuid, accountDto);
     }
 
     @DeleteMapping("/deleteAccount/{uuid}")

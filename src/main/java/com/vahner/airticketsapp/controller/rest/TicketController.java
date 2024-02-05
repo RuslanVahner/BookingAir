@@ -22,33 +22,28 @@ public class TicketController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<TicketDto> getTicketById(@Uuid @PathVariable("uuid") String uuid){
-        TicketDto ticketDto = ticketService.getTicketById(uuid);
-        return ResponseEntity.ok(ticketDto);
+    public TicketDto getTicketById(@Uuid @PathVariable("uuid") String uuid) {
+        return ticketService.getTicketById(uuid);
     }
 
     @GetMapping
-    public ResponseEntity<List<TicketDto>> getTickets(){
-        List<TicketDto> ticketDtoList = ticketService.getTickets();
-        return ResponseEntity.ok(ticketDtoList);
+    public List<TicketDto> getTickets() {
+        return ticketService.getTickets();
     }
 
     @PostMapping("/createTicket")
-    public ResponseEntity<TicketDto> create (@RequestBody TicketDto ticketDto){
-        TicketDto createTicketDto = ticketService.create(ticketDto);
-        return ResponseEntity.ok(createTicketDto);
+    public TicketDto create(@RequestBody TicketDto ticketDto) {
+        return ticketService.create(ticketDto);
     }
 
     @PutMapping("/updateTicket/{uuid}")
-    public ResponseEntity<TicketDto> updateTicket(@PathVariable UUID uuid, @RequestBody  TicketDto ticketDto){
-        TicketDto updateTicketDto = ticketService.updateTicket(uuid,ticketDto);
-        return ResponseEntity.ok(updateTicketDto);
+    public TicketDto updateTicket(@PathVariable UUID uuid, @RequestBody TicketDto ticketDto) {
+        return ticketService.updateTicket(uuid, ticketDto);
     }
 
     @DeleteMapping("/deleteTicket/{uuid}")
-    public ResponseEntity<String> deleteTicket(@PathVariable UUID uuid){
-        ticketService.deleteTicket(uuid);
-        return new ResponseEntity<>("Ticket deleted successfully", HttpStatus.OK);
+    public void deleteTicket(@PathVariable UUID uuid) {
+       ticketService.deleteTicket(uuid);
     }
 
 }

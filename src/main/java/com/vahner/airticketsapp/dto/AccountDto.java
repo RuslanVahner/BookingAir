@@ -13,6 +13,7 @@ public class AccountDto {
 
      String uuid;
      String login;
+     String password;
      String owner;
      AccountStatus status;
      BigDecimal balance;

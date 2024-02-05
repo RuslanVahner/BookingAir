@@ -63,9 +63,7 @@ public class AirlineController {
      */
 
     @DeleteMapping("/deleteAirline/{uuid}")
-    public ResponseEntity<String> deleteAirline(@PathVariable("uuid") UUID uuid){
+    public void deleteAirline(@PathVariable("uuid") UUID uuid){
         airlineService.deleteAirline(uuid);
-        return new ResponseEntity<>("Airline deleted successfully", HttpStatus.OK);
     }
-
 }

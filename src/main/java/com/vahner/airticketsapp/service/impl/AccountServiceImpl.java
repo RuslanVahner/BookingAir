@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto getAccountById(String uuid) {
         Account account = accountRepository.findById(UUID.fromString(uuid))
-                .orElseThrow(() -> new AccountNotFoundException("Account id is not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         return accountMapper.toDto(account);
 
     }
@@ -44,9 +44,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(UUID uuid, AccountDto accountDto) {
         Account existingAccount = accountRepository.findById(uuid)
-                .orElseThrow(() -> new AccountNotFoundException("Account id is not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         existingAccount.setLogin(accountDto.getLogin());
+        existingAccount.setPassword(accountDto.getPassword());
         existingAccount.setOwner(accountDto.getOwner());
         existingAccount.setBalance(accountDto.getBalance());
         existingAccount.setStatus(accountDto.getStatus());
@@ -58,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(UUID uuid) {
              Account account = accountRepository.findById(uuid)
-                .orElseThrow(() -> new AccountNotFoundException("Account id is not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         accountRepository.delete(account);
     }
 }

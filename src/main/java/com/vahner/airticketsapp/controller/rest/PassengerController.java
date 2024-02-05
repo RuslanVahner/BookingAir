@@ -22,21 +22,18 @@ public class PassengerController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<PassengerDto> getPassengerById(@Uuid @PathVariable("uuid") String uuid) {
-        PassengerDto passengerDto = passengerService.getPassengerById(uuid);
-        return ResponseEntity.ok(passengerDto);
+    public PassengerDto getPassengerById(@Uuid @PathVariable("uuid") String uuid) {
+        return passengerService.getPassengerById(uuid);
     }
 
     @GetMapping
-    public ResponseEntity<List<PassengerDto>> getAllPassenger(){
-        List<PassengerDto> passengerDtoList = passengerService.getPassengers();
-        return ResponseEntity.ok(passengerDtoList);
+    public List<PassengerDto> getAllPassenger() {
+        return passengerService.getPassengers();
     }
 
-    @PutMapping("updetaPassenger/{uuid}")
-    public ResponseEntity<PassengerDto> updatePassenger(@PathVariable UUID uuid, @RequestBody PassengerDto passengerDto){
-        PassengerDto updatePassenger = passengerService.updatePassenger(uuid,passengerDto);
-        return ResponseEntity.ok(updatePassenger);
+    @PutMapping("updatePassenger/{uuid}")
+    public PassengerDto updatePassenger(@PathVariable UUID uuid, @RequestBody PassengerDto passengerDto) {
+        return passengerService.updatePassenger(uuid, passengerDto);
     }
 
 }
