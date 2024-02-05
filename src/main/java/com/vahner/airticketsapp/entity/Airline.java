@@ -30,7 +30,7 @@ public class Airline {
     private BigDecimal airlinePrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trips_id")
+    @JoinColumn(name = "trips_id", referencedColumnName = "id")
     private Trips trips;
 
     @Override

@@ -1,6 +1,9 @@
 package com.vahner.airticketsapp.service.impl;
 
+import com.vahner.airticketsapp.dto.PassengerDto;
 import com.vahner.airticketsapp.entity.Passenger;
+import com.vahner.airticketsapp.exception.PassengerNotFoundException;
+import com.vahner.airticketsapp.mapper.PassengerMapper;
 import com.vahner.airticketsapp.repository.PassengerRepository;
 import com.vahner.airticketsapp.service.interf.PassengerService;
 import lombok.RequiredArgsConstructor;
@@ -13,19 +16,33 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PassengerServiceImpl implements PassengerService {
 
+
     private final PassengerRepository passengerRepository;
+    private final PassengerMapper passengerMapper;
 
     @Override
-    public Passenger getPassengerById(UUID id) {
-        return passengerRepository.getReferenceById(id);
-    }
-
-    public List<Passenger> getPassengers() {
-        return passengerRepository.findAll();
+    public PassengerDto getPassengerById(String uuid) {
+        Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))
+                .orElseThrow(() -> new PassengerNotFoundException("Passenger is not found."));
+        return passengerMapper.toDtoPassenger(passenger);
     }
 
     @Override
-    public Passenger create(Passenger passenger) {
-        return passengerRepository.save(passenger);
+    public List<PassengerDto> getPassengers() {
+        return passengerMapper.toDtoList(passengerRepository.findAll());
+    }
+
+    @Override
+    public PassengerDto updatePassenger(UUID uuid,PassengerDto passengerDto) {
+            Passenger  existingPassenger = passengerRepository.findById(uuid)
+                    .orElseThrow(() -> new PassengerNotFoundException("Passenger id is not found"));
+
+            existingPassenger.setEmail(passengerDto.getEmail());
+            existingPassenger.setPhone(passengerDto.getPhone());
+            existingPassenger.setLastName(passengerDto.getFirstName());
+            existingPassenger.setAge(passengerDto.getAge());
+
+            Passenger updatePassenger = passengerRepository.save(existingPassenger);
+            return passengerMapper.toDtoPassenger(updatePassenger);
     }
 }

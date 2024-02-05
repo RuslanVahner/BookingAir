@@ -9,4 +9,5 @@ public interface AirlineService {
     Airline getAirlineById(UUID uuid);
     List<Airline> getAllAirlines();
     Airline createAirline(Airline airline);
+    void deleteAirline(UUID uuid);
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/trip")
 @RequiredArgsConstructor
-public class TripController {
+public class TripsController {
 
     private final TripRepository tripRepository;
 

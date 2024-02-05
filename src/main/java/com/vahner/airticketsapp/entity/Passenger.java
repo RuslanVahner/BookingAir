@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.Objects;
 import java.util.UUID;
+
 @Entity
 @Table(name = "passenger")
 @Setter
@@ -37,9 +38,8 @@ public class Passenger {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
-
 
     @Override
     public boolean equals(Object o) {

@@ -32,6 +32,9 @@ public class Account {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "owner")
+    private String owner;
+
     @Column(name = "balance")
     private BigDecimal balance;
 

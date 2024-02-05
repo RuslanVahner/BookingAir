@@ -38,16 +38,16 @@ public class Ticket {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trips_id")
+    @JoinColumn(name = "trips_id", referencedColumnName = "id")
     private Trips trip;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airport_id")
+    @JoinColumn(name = "airport_id", referencedColumnName = "id")
     private Airport airport;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
     @Column(name = "service")

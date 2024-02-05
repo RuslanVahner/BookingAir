@@ -13,21 +13,25 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AirlineServiceImpl implements AirlineService {
 
-    private final AirlineRepository airlineRepository;
+    AirlineRepository airlineRepository;
 
     @Override
     public Airline getAirlineById(UUID uuid) {
-        return airlineRepository.getAirlineById(uuid);
+        return null;
     }
 
     @Override
     public List<Airline> getAllAirlines() {
-        return airlineRepository.findAll();
+        return null;
     }
 
     @Override
     public Airline createAirline(Airline airline) {
-        return airlineRepository.save(airline);
+        return null;
     }
 
+    @Override
+    public void deleteAirline(UUID uuid) {
+
+    }
 }

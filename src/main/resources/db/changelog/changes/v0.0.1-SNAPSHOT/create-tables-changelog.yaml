@@ -32,6 +32,11 @@ databaseChangeLog:
                   type: ENUM( 'ACTIVE', 'BLOCKED','REMOVED')
                   constraints:
                     nullable: false
+              - column:
+                  name: owner
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
 
   - changeSet:
       id: create-passenger-table
@@ -181,7 +186,7 @@ databaseChangeLog:
                     foreignKeyName: fk_airline_trips
                     referencedTableName: Trips
                     referencedColumnNames: id
-                    nullable: false
+                    nullable: true
 
   - changeSet:
       id: create-airport-table

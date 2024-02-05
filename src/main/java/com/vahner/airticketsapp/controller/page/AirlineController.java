@@ -4,6 +4,7 @@ import com.vahner.airticketsapp.service.interf.AirlineService;
 import lombok.RequiredArgsConstructor;
 import com.vahner.airticketsapp.entity.Airline;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +17,23 @@ public class AirlineController {
 
     private final AirlineService airlineService;
 
+    /**
+     * -@GetMapping("/airliners")-
+     * ==
+     * GetMapping: <a href=" http://localhost:8080/api/airline/airlines ">...</a>
+     * Status: Error;
+     */
 
-    @GetMapping("/airliners")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<Airline> getAllAirlines() {
         return airlineService.getAllAirlines();
     }
 
     /**
-     * Working code
+     * -@GetMapping("/{uuid}")-
      * Retrieving an existing airline by its ID in the database;
-     * GetMapping: <a href=" http://localhost:8080/api/airline/8084c1a1-b969-11ee-b62b-744ca1631356 ">...</a>
+     * GetMapping: <a href=" http://localhost:8080/api/airline/df86a563-bbc4-11ee-b62b-744ca1631356 ">...</a>
      * Status: 200;
      */
 
@@ -37,14 +44,28 @@ public class AirlineController {
     }
 
     /**
+     * -@PostMapping("/create")-
      * Creation of a new airline;
      * PostMapping: <a href=" http://localhost:8080/api/airline/create ">...</a>
-     * Status: 500
+     * Status: 200;
      */
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.OK)
     public Airline createAirline(@RequestBody Airline airline) {
         return airlineService.createAirline(airline);
     }
+
+    /**
+     * -@DeleteMapping("/deleteAirline/{uuid}")-
+     * Delete airline;
+     * <a href=" http://localhost:8080/api/airline/deleteAirline/ ">...</a>
+     * Status: 200;
+     */
+
+    @DeleteMapping("/deleteAirline/{uuid}")
+    public ResponseEntity<String> deleteAirline(@PathVariable("uuid") UUID uuid){
+        airlineService.deleteAirline(uuid);
+        return new ResponseEntity<>("Airline deleted successfully", HttpStatus.OK);
+    }
+
 }

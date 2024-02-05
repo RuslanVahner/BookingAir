@@ -1,16 +1,20 @@
 package com.vahner.airticketsapp.dto;
 
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
-import lombok.Value;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
-@Value
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
 public class AccountDto {
-    UUID id;
-    String login;
-    String password;
-    BigDecimal balance;
-    AccountStatus status;
+
+     String uuid;
+     String login;
+     String owner;
+     AccountStatus status;
+     BigDecimal balance;
+
 }

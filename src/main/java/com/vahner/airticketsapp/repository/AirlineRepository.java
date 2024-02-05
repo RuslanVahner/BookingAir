@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
-@Repository
 
+@Repository
 public interface AirlineRepository extends JpaRepository<Airline,UUID> {
-    Airline getAirlineById(UUID id);
+
 }
