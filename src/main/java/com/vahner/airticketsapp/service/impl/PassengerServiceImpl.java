@@ -16,7 +16,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PassengerServiceImpl implements PassengerService {
 
-
     private final PassengerRepository passengerRepository;
     private final PassengerMapper passengerMapper;
 
@@ -44,5 +43,12 @@ public class PassengerServiceImpl implements PassengerService {
 
             Passenger updatePassenger = passengerRepository.save(existingPassenger);
             return passengerMapper.toDtoPassenger(updatePassenger);
+    }
+
+    @Override
+    public void deletePassengerById(String uuid){
+        Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))
+                .orElseThrow(()-> new PassengerNotFoundException("Passenger with id not found"));
+        passengerRepository.delete(passenger);
     }
 }

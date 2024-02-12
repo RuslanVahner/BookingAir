@@ -13,9 +13,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
+import static jakarta.persistence.CascadeType.*;
+
 @Setter
 @Getter
+@Entity
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,23 +34,20 @@ public class Account {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "owner")
-    private String owner;
-
     @Column(name = "balance")
     private BigDecimal balance;
+
+    @Column(name = "owner")
+    private String owner;
 
     @Column(name = "account_status")
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
-    @OneToMany(mappedBy = "account")
-    private Set<Ticket> tickets;
-
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account",cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
     private Set<Cart> carts;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
     private List<Passenger> passengers;
 
     @Override

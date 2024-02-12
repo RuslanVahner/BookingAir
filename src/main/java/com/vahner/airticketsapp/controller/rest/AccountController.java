@@ -1,6 +1,7 @@
 package com.vahner.airticketsapp.controller.rest;
 
 import com.vahner.airticketsapp.dto.AccountDto;
+import com.vahner.airticketsapp.dto.TicketDto;
 import com.vahner.airticketsapp.service.interf.AccountService;
 import com.vahner.airticketsapp.validation.interf.Uuid;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,10 @@ public class AccountController {
     }
 
     @GetMapping
-    public List<AccountDto> getAccounts() {
-        return accountService.getAccounts();
+    public ResponseEntity<List<AccountDto>> getAccounts() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountService.getAccounts());
     }
 
     @PostMapping("/createAccount")
@@ -45,5 +48,23 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable UUID uuid) {
         accountService.deleteAccount(uuid);
         return new ResponseEntity<>("Account deleted successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/{uuid}/purchase-tickets")
+    public ResponseEntity<Void> purchaseTickets(@PathVariable String uuid) {
+        accountService.purchaseTickets(uuid);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{uuid}/addToCart")
+    public ResponseEntity<String> addToCart(@PathVariable String uuid, @RequestBody TicketDto ticketDto) {
+        accountService.addToCart(uuid, ticketDto);
+        return new ResponseEntity<>("Ticket successfully added to cart",HttpStatus.OK);
+    }
+
+    @PostMapping("/{uuid}/removeFromCart")
+    public ResponseEntity<String> removeFromCart(@PathVariable String uuid, @RequestBody TicketDto ticketDto) {
+        accountService.removeFormCart(uuid, ticketDto);
+        return new ResponseEntity<>("Ticket successfully returned from cart",HttpStatus.OK);
     }
 }

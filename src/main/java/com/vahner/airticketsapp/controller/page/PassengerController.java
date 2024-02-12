@@ -1,4 +1,4 @@
-package com.vahner.airticketsapp.controller.rest;
+package com.vahner.airticketsapp.controller.page;
 
 import com.vahner.airticketsapp.dto.PassengerDto;
 import com.vahner.airticketsapp.service.interf.PassengerService;
@@ -35,4 +35,8 @@ public class PassengerController {
         return passengerService.updatePassenger(uuid, passengerDto);
     }
 
+    @DeleteMapping("/deletePassenger/{uuid}")
+    public void deletePassengerById(@PathVariable String uuid){
+        passengerService.deletePassengerById(uuid);
+    }
 }

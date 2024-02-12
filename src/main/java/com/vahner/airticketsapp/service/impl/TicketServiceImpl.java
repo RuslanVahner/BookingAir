@@ -8,10 +8,10 @@ import com.vahner.airticketsapp.repository.TicketRepository;
 import com.vahner.airticketsapp.service.interf.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public TicketDto create(TicketDto ticketDto) {
         Ticket ticket = ticketMapper.toTicketEntity(ticketDto);
         Ticket savedTicket = ticketRepository.save(ticket);
@@ -41,8 +42,9 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    @Transactional
     public TicketDto updateTicket(UUID uuid, TicketDto ticketDto) {
-            Ticket existingTicket = ticketRepository.findById(uuid)
+        Ticket existingTicket = ticketRepository.findById(uuid)
                 .orElseThrow(() -> new TicketNotFoundException("Ticket not found"));
 
         existingTicket.setPrice(ticketDto.getPrice());
@@ -56,4 +58,10 @@ public class TicketServiceImpl implements TicketService {
     public void deleteTicket(UUID uuid) {
         ticketRepository.deleteById(uuid);
     }
+
+    @Override
+    public void cancelTickets(List<Ticket> tickets) {
+
+    }
+
 }
