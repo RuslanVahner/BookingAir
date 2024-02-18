@@ -11,6 +11,7 @@ import java.util.List;
 @Component
 public interface PassengerMapper {
 
-    PassengerDto toDtoPassenger (Passenger passenger);
+    PassengerDto toDtoPassenger(Passenger passenger);
+
     List<PassengerDto> toDtoList(List<Passenger> passengers);
 }

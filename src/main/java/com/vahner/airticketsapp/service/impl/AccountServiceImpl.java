@@ -27,6 +27,13 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
     private final CartService cartService;
 
+    /**
+     * Getting information about his UUID account
+     * Получение информацию об аккаунте по его UUID.
+     *
+     * @param uuid аккаунта.
+     * @return DTO с информацией об аккаунте.
+     */
     @Override
     public AccountDto getAccountById(String uuid) {
         Account account = accountRepository.findById(UUID.fromString(uuid))
@@ -34,13 +41,26 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDto(account);
     }
 
+    /**
+     * Getting lists of all accounts.
+     * Получение списоков всех аккаунтов.
+     *
+     * @return Список DTO с информацией об аккаунтах.
+     */
     @Override
     public List<AccountDto> getAccounts() {
         return accountMapper.toDtoListAccount(accountRepository.findAll());
     }
 
+    /**
+     * Creates a new account with the specified data.
+     * Создает новый аккаунт с указанными данными.
+     *
+     * @param accountDto с данными для создания аккаунта.
+     * @return DTO с информацией о созданном аккаунте.
+     */
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public AccountDto create(AccountDto accountDto) {
         log.debug("Account create");
         Account accountToCreate = accountMapper.toEntity(accountDto);
@@ -49,6 +69,14 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDto(createdAccount);
     }
 
+    /**
+     * Update the account information with the specified UUID.
+     * Обновление информации об аккаунте с указанным UUID.
+     *
+     * @param uuid аккаунта для обновления.
+     * @param accountDto с новыми данными для аккаунта.
+     * @return DTO с обновленной информацией об аккаунте.
+     */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public AccountDto updateAccount(UUID uuid, AccountDto accountDto) {
@@ -66,7 +94,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * A method for changing a user's password;
+     * Method for changing the user password.
+     * Метод для изменения пароля пользователя.
+     *
+     * @param uuid аккаунта, для которого меняется пароль.
+     * @param newPassword новый пароль.
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -78,19 +110,28 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+    /**
+     * Delete the account with the specified UUID.
+     * Удаление аккаунта с указанным UUID.
+     *
+     * @param uuid аккаунта для удаления.
+     */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void deleteAccount(UUID uuid) {
-        Account account = accountRepository.findById(uuid)
+    public void deleteAccount(String uuid) {
+        Account account = accountRepository.findById(UUID.fromString(uuid))
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         accountRepository.delete(account);
     }
 
     /**
-     *A method for obtaining information about a passenger balance;
+     * Getting the current account balance by its UUID.
+     * Получение текущего баланса аккаунта по его UUID.
+     *
+     * @param uuid аккаунта.
+     * @return Текущий баланс аккаунта.
      */
     @Override
-    @Transactional
     public BigDecimal getAccountBalance(String uuid) {
         Account account = accountRepository.findById(UUID.fromString(uuid))
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
@@ -98,12 +139,13 @@ public class AccountServiceImpl implements AccountService {
         return account.getBalance();
     }
 
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void purchaseTickets(Account account) {
-        cartService.purchaseTickets(account);
-    }
-
+    /**
+     * Add tickets to the cart and calculate the total cost if tickets are more than one.
+     * Добавление билетов в корзину и рассчет общей стоимости, если билетов больше одного.
+     *
+     * @param uuid аккаунта, для которого добавляется билет в корзину.
+     * @param ticketDto с данными о билете.
+     */
     @Override
     public void addToCart(String uuid, TicketDto ticketDto) {
         log.debug("Ticket add to the cart");
@@ -118,6 +160,13 @@ public class AccountServiceImpl implements AccountService {
         cartService.addToCart(account, ticketDto);
     }
 
+    /**
+     * Removing the ticket from the cart.
+     * Удаление билета из корзины.
+     *
+     * @param uuid аккаунта, из которого удаляется билет.
+     * @param ticketDto с данными о билете для его удаления.
+     */
     @Override
     public void removeFormCart(String uuid, TicketDto ticketDto) {
         log.debug("Returning a ticket from a shopping cart");
@@ -127,12 +176,33 @@ public class AccountServiceImpl implements AccountService {
         cartService.removeFormCart(account, ticketDto);
     }
 
+    /**
+     * Buying tickets for his account via his UUID.
+     * Покупка билетов для аккаунта по его UUID.
+     *
+     * @param uuid аккаунта для покупки билетов.
+     */
     @Override
     public void purchaseTickets(String uuid) {
         log.debug("Tickets purchased");
         Account account = accountRepository.findById(UUID.fromString(uuid))
                 .orElseThrow(() -> new AccountNotFoundException("Account not found"));
         cartService.purchaseTickets(account);
+    }
 
+    /**
+     * View ticket purchase history for a specific account.
+     * Просмотр истории покупок билетов для конкретного аккаунта.
+     *
+     * @param uuid аккаунта.
+     * @return Список TicketDto, представляющий историю покупок.
+     * @throws AccountNotFoundException если аккаунт с указанным UUID не найден.
+     */
+    @Override
+    public List<TicketDto> getPurchaseHistory(String uuid) {
+        Account account = accountRepository.findById(UUID.fromString(uuid))
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
+        return cartService.getPurchaseHistory(account);
     }
 }

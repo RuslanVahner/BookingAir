@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {PassengerMapper.class, CartMapper.class})
+@Mapper(componentModel = "spring")
 @Component
 public interface AccountMapper {
     AccountDto toDto(Account account);

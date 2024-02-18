@@ -19,6 +19,13 @@ public class PassengerServiceImpl implements PassengerService {
     private final PassengerRepository passengerRepository;
     private final PassengerMapper passengerMapper;
 
+    /**
+     * Getting information about his UUID passenger
+     * Получение информацию о пассажире по UUID.
+     *
+     * @param uuid пассажира.
+     * @return DTO с информацией о пассажире.
+     */
     @Override
     public PassengerDto getPassengerById(String uuid) {
         Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))
@@ -26,11 +33,25 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerMapper.toDtoPassenger(passenger);
     }
 
+    /**
+     * Getting lists of all passengers.
+     * Получение списоков всех пассажиров.
+     *
+     * @return Список DTO с информацией о пассажирах.
+     */
     @Override
     public List<PassengerDto> getPassengers() {
         return passengerMapper.toDtoList(passengerRepository.findAll());
     }
 
+    /**
+     * Update the passenger information with the specified UUID.
+     * Обновление информации о пассажире с указанным UUID.
+     *
+     * @param uuid пассажира для обновления.
+     * @param passengerDto с новыми данными для пассажира.
+     * @return DTO с обновленной информацией о пассажире.
+     */
     @Override
     public PassengerDto updatePassenger(UUID uuid,PassengerDto passengerDto) {
             Passenger  existingPassenger = passengerRepository.findById(uuid)
@@ -45,6 +66,12 @@ public class PassengerServiceImpl implements PassengerService {
             return passengerMapper.toDtoPassenger(updatePassenger);
     }
 
+    /**
+     * Delete the passenger with the specified UUID.
+     * Удаление пассажира с указанным UUID.
+     *
+     * @param uuid пассажира для удаления.
+     */
     @Override
     public void deletePassengerById(String uuid){
         Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))

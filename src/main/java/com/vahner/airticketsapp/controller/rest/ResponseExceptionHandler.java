@@ -1,9 +1,9 @@
 package com.vahner.airticketsapp.controller.rest;
 
-
 import com.vahner.airticketsapp.exception.AccountNotFoundException;
 import com.vahner.airticketsapp.exception.PassengerNotFoundException;
 import com.vahner.airticketsapp.exception.TicketNotFoundException;
+import com.vahner.airticketsapp.exception.TripsNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +30,13 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {TicketNotFoundException.class})
     protected ResponseEntity<Object> handleTicketNotFound(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = "Ticket not found";
+        return handleExceptionInternal(ex, bodyOfResponse,
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(value = {TripsNotFoundException.class})
+    protected ResponseEntity<Object> handleTripsNotFound(RuntimeException ex, WebRequest request) {
+        String bodyOfResponse = "Trips not found";
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 public class TicketDto {
 
-    String id;
+    String uuid;
     BigDecimal price;
     LocalDateTime data;
     String service;
@@ -23,8 +23,6 @@ public class TicketDto {
     String nameTrips;
     String tripsType;
     LocalDateTime flightTime;
-    LocalDateTime arrival;
-    LocalDateTime departure;
 
     String address;
     String nameAirPort;

@@ -15,8 +15,8 @@ import java.util.UUID;
 
 @Validated
 @RestController
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
-@RequestMapping("/account")
 public class AccountController {
 
     private final AccountService accountService;
@@ -45,7 +45,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/deleteAccount/{uuid}")
-    public ResponseEntity<String> deleteAccount(@PathVariable UUID uuid) {
+    public ResponseEntity<String> deleteAccount(@PathVariable String uuid) {
         accountService.deleteAccount(uuid);
         return new ResponseEntity<>("Account deleted successfully", HttpStatus.OK);
     }
@@ -59,12 +59,12 @@ public class AccountController {
     @PostMapping("/{uuid}/addToCart")
     public ResponseEntity<String> addToCart(@PathVariable String uuid, @RequestBody TicketDto ticketDto) {
         accountService.addToCart(uuid, ticketDto);
-        return new ResponseEntity<>("Ticket successfully added to cart",HttpStatus.OK);
+        return new ResponseEntity<>("Ticket successfully added to cart", HttpStatus.OK);
     }
 
     @PostMapping("/{uuid}/removeFromCart")
     public ResponseEntity<String> removeFromCart(@PathVariable String uuid, @RequestBody TicketDto ticketDto) {
         accountService.removeFormCart(uuid, ticketDto);
-        return new ResponseEntity<>("Ticket successfully returned from cart",HttpStatus.OK);
+        return new ResponseEntity<>("Ticket successfully returned from cart", HttpStatus.OK);
     }
 }

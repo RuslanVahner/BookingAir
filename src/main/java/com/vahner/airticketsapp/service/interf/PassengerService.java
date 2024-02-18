@@ -7,7 +7,10 @@ import java.util.UUID;
 
 public interface PassengerService {
     PassengerDto getPassengerById(String uuid);
+
     List<PassengerDto> getPassengers();
+
     PassengerDto updatePassenger(UUID uuid, PassengerDto passengerDto);
+
     void deletePassengerById(String uuid);
 }

@@ -30,7 +30,7 @@ public class PassengerController {
         return passengerService.getPassengers();
     }
 
-    @PutMapping("updatePassenger/{uuid}")
+    @PutMapping("/updatePassenger/{uuid}")
     public PassengerDto updatePassenger(@PathVariable UUID uuid, @RequestBody PassengerDto passengerDto) {
         return passengerService.updatePassenger(uuid, passengerDto);
     }

@@ -50,20 +50,18 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
     private List<Passenger> passengers;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(login, account.login)
-                && Objects.equals(password, account.password)
-                && Objects.equals(balance, account.balance)
-                && status == account.status;
+        return Objects.equals(id, account.id) && Objects.equals(login, account.login) && Objects.equals(password, account.password) && Objects.equals(balance, account.balance) && Objects.equals(owner, account.owner) && status == account.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, balance, status);
+        return Objects.hash(id, login, password, balance, owner, status);
     }
 
     @Override

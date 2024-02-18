@@ -7,9 +7,9 @@ spring:
     banner-mode: off
 
   datasource:
-    url: jdbc:mysql://localhost:3306/airticket
-    username: root
-    password: 49vobollo1403V
+    url: ${DATASOURCE.URL}
+    username: ${DATASOURCE.USERNAME}
+    password: ${DATASOURCE.PASSWORD}
 
   jpa:
     show-sql: true

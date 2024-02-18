@@ -5,10 +5,12 @@ import com.vahner.airticketsapp.dto.TicketDto;
 import com.vahner.airticketsapp.entity.Account;
 import com.vahner.airticketsapp.repository.CartRepository;
 import com.vahner.airticketsapp.service.interf.CartService;
-import com.vahner.airticketsapp.service.interf.TicketService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private final TicketService ticketService;
 
     @Override
     public void purchaseTickets(Account account) {
@@ -29,7 +30,15 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public List<TicketDto> getPurchaseHistory(Account account) {
+
+        return null;
+    }
+
+    @Override
     public void addToCart(Account account, TicketDto ticketDto) {
 
     }
+
+
 }
