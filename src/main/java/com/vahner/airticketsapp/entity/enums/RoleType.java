@@ -2,21 +2,22 @@ package com.vahner.airticketsapp.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum AccountStatus {
-    ACTIVE("ACTIVE"),
-    BLOCKED("BLOCKED"),
-    REMOVED("REMOVED");
+public enum RoleType implements GrantedAuthority {
+
+    ADMIN("ADMIN"),
+    PASSENGER("USER");
 
     private final String value;
 
-    AccountStatus(String value) {
+    RoleType(String value) {
         this.value = value;
     }
 
     @JsonValue
-    public String getValue(){
+    public String getAuthority() {
         return value;
     }
 }

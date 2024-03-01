@@ -49,7 +49,7 @@ public class TripsController {
     @DeleteMapping("/deleteTrips/{uuid}")
     public ResponseEntity<Void> deleteTrips(@PathVariable("uuid") String uuid) {
         tripsService.deleteTrips(String.valueOf(UUID.fromString(uuid)));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

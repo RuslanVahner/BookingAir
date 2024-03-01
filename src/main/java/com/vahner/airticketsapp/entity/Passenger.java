@@ -1,5 +1,7 @@
 package com.vahner.airticketsapp.entity;
 
+import com.vahner.airticketsapp.entity.converter.RoleSetConverter;
+import com.vahner.airticketsapp.entity.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -41,31 +44,38 @@ public class Passenger {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
+    @Convert(converter = RoleSetConverter.class)
+    private Set<RoleType> roles;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Passenger passenger = (Passenger) o;
-        return age == passenger.age && Objects.equals(id, passenger.id) &&
-                Objects.equals(firstName, passenger.firstName) &&
-                Objects.equals(lastName, passenger.lastName) &&
-                Objects.equals(phone, passenger.phone);
+        return age == passenger.age && Objects.equals(id, passenger.id)
+                && Objects.equals(email, passenger.email)
+                && Objects.equals(firstName, passenger.firstName)
+                && Objects.equals(lastName, passenger.lastName)
+                && Objects.equals(phone, passenger.phone)
+                && Objects.equals(roles, passenger.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, age, phone);
+        return Objects.hash(id, email, firstName, lastName, age, phone, roles);
     }
 
     @Override
     public String toString() {
         return "Passenger{" +
                 "id=" + id +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", account=" + account +
+                ", roles=" + roles +
                 '}';
     }
 }

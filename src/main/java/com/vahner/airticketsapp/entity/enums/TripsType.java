@@ -1,5 +1,6 @@
 package com.vahner.airticketsapp.entity.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
@@ -12,5 +13,10 @@ public enum TripsType {
 
     TripsType(String tripsType) {
         this.tripsType = tripsType;
+    }
+
+    @JsonValue
+    public String getValue(){
+        return tripsType;
     }
 }

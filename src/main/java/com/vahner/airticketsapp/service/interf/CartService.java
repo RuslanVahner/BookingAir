@@ -1,16 +1,19 @@
 package com.vahner.airticketsapp.service.interf;
 
+import com.vahner.airticketsapp.dto.CartDto;
 import com.vahner.airticketsapp.dto.TicketDto;
 import com.vahner.airticketsapp.entity.Account;
+import com.vahner.airticketsapp.entity.Cart;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CartService {
-    void addToCart(Account account, TicketDto ticketDto);
 
-    void purchaseTickets(Account account);
+    ResponseEntity<CartDto> findCartById(String uuid);
 
-    void removeFormCart(Account account, TicketDto ticketDto);
+    Cart create(CartDto cartDto);
 
-    List<TicketDto> getPurchaseHistory(Account account);
+    void deleteById(UUID uuid);
 }

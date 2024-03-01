@@ -4,17 +4,20 @@ import com.vahner.airticketsapp.dto.TicketDto;
 import com.vahner.airticketsapp.entity.Ticket;
 import com.vahner.airticketsapp.entity.Trips;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {AccountMapper.class, Trips.class})
+@Mapper(componentModel = "spring", uses = {Trips.class})
 @Component
 public interface TicketMapper {
 
-    TicketDto toDtoTicket(Ticket ticket);
+    @Mapping(source = "trip", target = "tripDto")
+    TicketDto toDto(Ticket entity);
 
-    Ticket toTicketEntity(TicketDto ticketDto);
+    @Mapping(source = "tripDto", target = "trip")
+    Ticket toEntity(TicketDto dto);
 
-    List<TicketDto> toDtoTicketList(List<Ticket> tickets);
+    void updateEntity(TicketDto ticketDto, Ticket existingTicket);
 }

@@ -60,7 +60,6 @@ public class PassengerServiceImpl implements PassengerService {
             existingPassenger.setEmail(passengerDto.getEmail());
             existingPassenger.setPhone(passengerDto.getPhone());
             existingPassenger.setLastName(passengerDto.getFirstName());
-            existingPassenger.setAge(passengerDto.getAge());
 
             Passenger updatePassenger = passengerRepository.save(existingPassenger);
             return passengerMapper.toDtoPassenger(updatePassenger);

@@ -1,7 +1,6 @@
 package com.vahner.airticketsapp.service.impl;
 
 import com.vahner.airticketsapp.dto.TicketDto;
-import com.vahner.airticketsapp.entity.Account;
 import com.vahner.airticketsapp.entity.Ticket;
 import com.vahner.airticketsapp.exception.TicketNotFoundException;
 import com.vahner.airticketsapp.mapper.TicketMapper;
@@ -15,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
-
 
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;
@@ -33,11 +32,24 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public TicketDto getTicketById(String uuid) {
-
+        log.info("Getting ticket by UUID: {}", uuid);
         Ticket ticket = ticketRepository.findById(UUID.fromString(uuid))
-                .orElseThrow(() -> new TicketNotFoundException("Ticket not found"));
+                .orElseThrow(() -> new TicketNotFoundException("Ticket with id " + uuid + " not found"));
 
-        return ticketMapper.toDtoTicket(ticket);
+        return ticketMapper.toDto(ticket);
+    }
+
+    /**
+     * Получение списка всех билетов.
+     *
+     * @return Список DTO с информацией о билетах.
+     */
+
+    @Override
+    public List<TicketDto> getAllTicket() {
+        log.info("Getting all tickets");
+        List<Ticket> tickets = ticketRepository.findAll();
+        return tickets.stream().map(ticketMapper::toDto).collect(Collectors.toList());
     }
 
     /**
@@ -49,42 +61,23 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public TicketDto create(TicketDto ticketDto) {
-
-        Ticket ticket = ticketMapper.toTicketEntity(ticketDto);
-        Ticket savedTicket = ticketRepository.save(ticket);
-        return ticketMapper.toDtoTicket(savedTicket);
-    }
-
-    /**
-     * Получение списка всех билетов.
-     *
-     * @return Список DTO с информацией о билетах.
-     */
-    @Override
-    public List<TicketDto> getTickets() {
-        List<Ticket> tickets = ticketRepository.findAll();
-        return ticketMapper.toDtoTicketList(tickets);
+        log.info("Creating ticket: {}", ticketDto);
+        Ticket ticket = ticketMapper.toEntity(ticketDto);
+        Ticket ticketSave = ticketRepository.save(ticket);
+        return ticketMapper.toDto(ticketSave);
     }
 
     /**
      * Обновление информации о билете с указанным UUID.
      *
-     * @param uuid билета для обновления.
+     * @param uuid      билета для обновления.
      * @param ticketDto новые данные для билета.
-     * @return DTO с обновленной информацией о билете.
      */
-    @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public TicketDto updateTicket(UUID uuid, TicketDto ticketDto) {
-
-        Ticket existingTicket = ticketRepository.findById(uuid)
-                .orElseThrow(() -> new TicketNotFoundException("Ticket not found"));
-
-        existingTicket.setPrice(ticketDto.getPrice());
-        existingTicket.setData(ticketDto.getData());
-
-        Ticket updatedTicket = ticketRepository.save(existingTicket);
-        return ticketMapper.toDtoTicket(updatedTicket);
+    public void updateTicket(UUID uuid, TicketDto ticketDto) {
+        Ticket ticket = ticketRepository.findById(uuid)
+                .orElseThrow(() -> new TicketNotFoundException("Ticket with id " + uuid + " not found"));
+        ticketMapper.updateEntity(ticketDto, ticket);
+        ticketRepository.save(ticket);
     }
 
     /**
@@ -93,34 +86,8 @@ public class TicketServiceImpl implements TicketService {
      * @param uuid билета для удаления.
      */
     @Override
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void deleteTicket(UUID uuid) {
-
         ticketRepository.deleteById(uuid);
     }
 
-    /**
-     * Отмена списка билетов.
-     *
-     * @param tickets Список билетов для отмены.
-     */
-    @Override
-    public void cancelTickets(List<Ticket> tickets) {
-
-        ticketRepository.deleteAll(tickets);
-    }
-
-    /**
-     * Получение списка билетов для указанного аккаунта.
-     *
-     * @param account Аккаунт, для которого нужно получить билеты.
-     * @return Список DTO с информацией о билетах для аккаунта.
-     */
-    @Override
-    public List<TicketDto> getAccountTickets(Account account) {
-        log.debug("Fetching tickets for account with UUID: {}", account.getId());
-
-        List<Ticket> accountTickets = ticketRepository.findByAccount(account);
-        return ticketMapper.toDtoTicketList(accountTickets);
-    }
 }

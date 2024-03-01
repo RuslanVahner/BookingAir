@@ -3,18 +3,37 @@ server:
   servlet:
     context-path: /
 spring:
+  mvc:
+    content-negotiation:
+      favor-parameter: true
   main:
     banner-mode: off
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
 
   datasource:
     url: ${DATASOURCE.URL}
     username: ${DATASOURCE.USERNAME}
     password: ${DATASOURCE.PASSWORD}
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-
   liquibase:
+    enabled: true
     change-log: classpath:db/changelog/changes/v0.0.1-SNAPSHOT/v0.0.1-master.xml
+    drop-first: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    defer-datasource-initialization: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

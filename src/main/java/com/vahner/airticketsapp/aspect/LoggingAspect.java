@@ -3,7 +3,11 @@ package com.vahner.airticketsapp.aspect;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.UUID;
 
 @Slf4j
 @Aspect
@@ -24,10 +28,14 @@ public class LoggingAspect {
      */
     @Before("controllerLog()")
     public void doBeforeController(JoinPoint jp) {
-        log.info("Incoming request:\n" +
-                        "Controller method: {}.{}",
+        MDC.put("requestId", generateRequestId());
+        log.info("Incoming request to Controller method: {}.{}",
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName());
+    }
+
+    private String generateRequestId() {
+        return UUID.randomUUID().toString();
     }
 
     /**
@@ -36,8 +44,11 @@ public class LoggingAspect {
      */
     @Before("serviceLog()")
     public void doBeforeService(JoinPoint jp) {
-        log.info("Executing service method: {}.{}",
-                jp.getSignature().getDeclaringTypeName(), jp.getSignature().getName());
+        Object[] args = jp.getArgs();
+        log.info("Executing service method: {}.{} with args: {}",
+                jp.getSignature().getDeclaringTypeName(),
+                jp.getSignature().getName(),
+                Arrays.toString(args));
     }
 
     /**
@@ -59,5 +70,10 @@ public class LoggingAspect {
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName(),
                 ex.getMessage());
+    }
+
+    @After("controllerLog()")
+    public void doAfterController() {
+        MDC.clear();
     }
 }

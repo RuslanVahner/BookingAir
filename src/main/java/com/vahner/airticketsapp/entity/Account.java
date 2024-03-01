@@ -50,7 +50,6 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
     private List<Passenger> passengers;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -6,8 +6,10 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 
     /**
@@ -27,7 +29,7 @@ public class SwaggerConfig {
 
     /**
      * Закрытый метод getSecuritySchemesItem() создает объект SecurityScheme для схемы безопасности.
-     * Нужно указать, что использую тип HTTP, схему "bearer" и формат "JWT".
+     * Нужно указать тип HTTP, схему "bearer" и формат "JWT".
      *
      * @return Объект SecurityScheme с настроенными правилами безопасности.
      */

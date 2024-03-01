@@ -1,27 +1,25 @@
 package com.vahner.airticketsapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 @Builder
-@Data
+@AllArgsConstructor
 public class TicketDto {
-
     String uuid;
     BigDecimal price;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDateTime data;
     String service;
     String type;
 
     String nameTrips;
     String tripsType;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     LocalDateTime flightTime;
 
     String address;
