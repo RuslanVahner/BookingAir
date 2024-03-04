@@ -66,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto create(AccountDto accountDto) {
         log.info("Creating account: {}", accountDto);
         Account account = accountMapper.toEntity(accountDto);
+        account.setBalance(BigDecimal.ZERO);
         Account accountSave = accountRepository.save(account);
 
         return accountMapper.toDto(accountSave);
