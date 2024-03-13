@@ -1,6 +1,7 @@
 package com.vahner.airticketsapp.entity;
 
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
+import com.vahner.airticketsapp.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,12 +9,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-
-import static jakarta.persistence.CascadeType.*;
 
 @Setter
 @Getter
@@ -24,11 +24,11 @@ import static jakarta.persistence.CascadeType.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
+    private UUID accountId;
 
-    @Column(name = "login")
+    @Column(name = "login", nullable = false)
     private String login;
 
     @Column(name = "password")
@@ -40,14 +40,18 @@ public class Account {
     @Column(name = "owner")
     private String owner;
 
+    @Column(name = "create_account_date")
+    private LocalDate createAccountDate;
+
     @Column(name = "account_status")
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
-    @OneToMany(mappedBy = "account",cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
-    private Set<Cart> carts;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> role;
 
-    @OneToMany(mappedBy = "account", cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Passenger> passengers;
 
     @Override
@@ -55,23 +59,28 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(login, account.login) && Objects.equals(password, account.password) && Objects.equals(balance, account.balance) && Objects.equals(owner, account.owner) && status == account.status;
+        return Objects.equals(accountId, account.accountId) && Objects.equals(login, account.login)
+                && Objects.equals(balance, account.balance)
+                && Objects.equals(owner, account.owner)
+                && Objects.equals(createAccountDate, account.createAccountDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, balance, owner, status);
+        return Objects.hash(accountId, login, balance, owner, createAccountDate);
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
+                "id=" + accountId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", balance=" + balance +
+                ", owner='" + owner + '\'' +
+                ", createAccountDate=" + createAccountDate +
                 ", status=" + status +
-                ", carts=" + carts +
+                ", role=" + role +
                 ", passengers=" + passengers +
                 '}';
     }

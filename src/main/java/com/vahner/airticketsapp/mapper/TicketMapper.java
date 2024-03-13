@@ -2,22 +2,21 @@ package com.vahner.airticketsapp.mapper;
 
 import com.vahner.airticketsapp.dto.TicketDto;
 import com.vahner.airticketsapp.entity.Ticket;
-import com.vahner.airticketsapp.entity.Trips;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring", uses = {Trips.class})
-@Component
+@Mapper(componentModel = "spring")
 public interface TicketMapper {
 
-    @Mapping(source = "trip", target = "tripDto")
-    TicketDto toDto(Ticket entity);
+    @Mapping(target = "nameFlight", source = "flight.nameFlight")
+    @Mapping(target = "departureDate", source = "flight.departureDate", dateFormat = "yyyy-MM-dd HH:mm")
+    @Mapping(target = "arrivalDate", source = "flight.arrivalDate", dateFormat = "yyyy-MM-dd HH:mm")
+    TicketDto toDto(Ticket ticket);
 
-    @Mapping(source = "tripDto", target = "trip")
-    Ticket toEntity(TicketDto dto);
+    @Mapping(target = "flight.nameFlight", source = "nameFlight")
+    @Mapping(target = "flight.departureDate", ignore = true)
+    @Mapping(target = "flight.arrivalDate", ignore = true)
+    Ticket toEntity(TicketDto ticketDto);
 
-    void updateEntity(TicketDto ticketDto, Ticket existingTicket);
+    void updateEntityFromDto(TicketDto ticketDto, Ticket ticket);
 }

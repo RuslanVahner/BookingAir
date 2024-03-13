@@ -1,8 +1,3 @@
-INSERT INTO Passenger (id, first_name, last_name, age, email, phone, account_id)
-VALUES
-    (UNHEX(REPLACE(UUID(), '-', '')), 'Uwe', 'Fisher', 25, 'jone@yahoo.com', '+4915188569',
-    (SELECT id FROM Account WHERE owner = 'Uwe Fisher')),
-    (UNHEX(REPLACE(UUID(), '-', '')), 'Luca', 'Lukas', 34, 'lukas@yahoo.com', '+4915188569',
-    (SELECT id FROM Account WHERE owner = 'Luca Lukas')),
-    (UNHEX(REPLACE(UUID(), '-', '')), 'Jane', 'Kin', 45, 'jane@gamail.com', '+81345789087',
-    (SELECT id FROM Account WHERE owner = 'Jane Kin'));
+INSERT INTO passenger (id, email, first_name, last_name, age, phone, account_id)
+VALUES (UUID_TO_BIN(UUID()), 'Doe@gmail.com', 'John', 'Doe', 30, '1234567890',
+        (SELECT id FROM account WHERE owner = 'John Doe' LIMIT 1) );

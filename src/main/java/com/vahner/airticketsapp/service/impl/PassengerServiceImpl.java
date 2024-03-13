@@ -1,17 +1,23 @@
 package com.vahner.airticketsapp.service.impl;
 
 import com.vahner.airticketsapp.dto.PassengerDto;
+import com.vahner.airticketsapp.dto.ShortPassengerDto;
 import com.vahner.airticketsapp.entity.Passenger;
+import com.vahner.airticketsapp.exception.ErrorMessage;
 import com.vahner.airticketsapp.exception.PassengerNotFoundException;
 import com.vahner.airticketsapp.mapper.PassengerMapper;
 import com.vahner.airticketsapp.repository.PassengerRepository;
 import com.vahner.airticketsapp.service.interf.PassengerService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PassengerServiceImpl implements PassengerService {
@@ -20,61 +26,72 @@ public class PassengerServiceImpl implements PassengerService {
     private final PassengerMapper passengerMapper;
 
     /**
-     * Getting information about his UUID passenger
-     * Получение информацию о пассажире по UUID.
+     * Получение пассажира по его ID.
      *
-     * @param uuid пассажира.
-     * @return DTO с информацией о пассажире.
+     * @param id ID пассажира.
+     * @return DTO пассажира.
      */
-    @Override
-    public PassengerDto getPassengerById(String uuid) {
-        Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))
-                .orElseThrow(() -> new PassengerNotFoundException("Passenger is not found."));
-        return passengerMapper.toDtoPassenger(passenger);
+    public PassengerDto getPassengerById(String id) {
+        log.info("Retrieving passenger by ID: {}", id);
+        Passenger passenger = passengerRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new PassengerNotFoundException(String.format(ErrorMessage.M_PASSEGER_NOT_FOUND, id)));
+        return passengerMapper.toDto(passenger);
     }
 
     /**
-     * Getting lists of all passengers.
-     * Получение списоков всех пассажиров.
+     * Получение списка всех пассажиров.
      *
-     * @return Список DTO с информацией о пассажирах.
+     * @return Список DTO всех пассажиров.
      */
-    @Override
-    public List<PassengerDto> getPassengers() {
-        return passengerMapper.toDtoList(passengerRepository.findAll());
+    public List<ShortPassengerDto> getAllPassengers() {
+        log.info("Retrieving all passengers");
+        return passengerRepository.findAll().stream()
+                .map(passengerMapper::toShortDto)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Update the passenger information with the specified UUID.
-     * Обновление информации о пассажире с указанным UUID.
+     * Создание нового пассажира.
      *
-     * @param uuid пассажира для обновления.
-     * @param passengerDto с новыми данными для пассажира.
-     * @return DTO с обновленной информацией о пассажире.
+     * @param passengerDto DTO для создания пассажира.
+     * @return DTO созданного пассажира.
      */
     @Override
-    public PassengerDto updatePassenger(UUID uuid,PassengerDto passengerDto) {
-            Passenger  existingPassenger = passengerRepository.findById(uuid)
-                    .orElseThrow(() -> new PassengerNotFoundException("Passenger id is not found"));
-
-            existingPassenger.setEmail(passengerDto.getEmail());
-            existingPassenger.setPhone(passengerDto.getPhone());
-            existingPassenger.setLastName(passengerDto.getFirstName());
-
-            Passenger updatePassenger = passengerRepository.save(existingPassenger);
-            return passengerMapper.toDtoPassenger(updatePassenger);
+    @Transactional
+    public PassengerDto createPassenger(PassengerDto passengerDto) {
+        log.info("Creating new passenger: {}", passengerDto);
+        Passenger passenger = passengerMapper.toEntity(passengerDto);
+        Passenger savedPassenger = passengerRepository.save(passenger);
+        return passengerMapper.toDto(savedPassenger);
     }
 
     /**
-     * Delete the passenger with the specified UUID.
-     * Удаление пассажира с указанным UUID.
+     * Обновление информации о пассажире.
      *
-     * @param uuid пассажира для удаления.
+     * @param id           ID пассажира для обновления.
+     * @param passengerDto DTO с новыми данными для пассажира.
      */
     @Override
-    public void deletePassengerById(String uuid){
-        Passenger passenger = passengerRepository.findById(UUID.fromString(uuid))
-                .orElseThrow(()-> new PassengerNotFoundException("Passenger with id not found"));
+    @Transactional
+    public void updatePassenger(String id, PassengerDto passengerDto) {
+        log.info("Updating passenger with ID {}: {}", id, passengerDto);
+        Passenger existingPassenger = passengerRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new PassengerNotFoundException(String.format(ErrorMessage.M_PASSEGER_NOT_FOUND, id)));
+        passengerMapper.updateEntity(passengerDto, existingPassenger);
+        passengerRepository.save(existingPassenger);
+    }
+
+    /**
+     * Удаление пассажира по ID.
+     *
+     * @param id ID пассажира для удаления.
+     */
+    @Override
+    @Transactional
+    public void deletePassengerById(String id) {
+        log.info("Deleting passenger with ID: {}", id);
+        Passenger passenger = passengerRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new PassengerNotFoundException(String.format(ErrorMessage.M_PASSEGER_NOT_FOUND, id)));
         passengerRepository.delete(passenger);
     }
 }

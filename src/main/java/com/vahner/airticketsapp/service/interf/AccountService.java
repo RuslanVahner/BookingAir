@@ -1,24 +1,30 @@
 package com.vahner.airticketsapp.service.interf;
 
 import com.vahner.airticketsapp.dto.AccountDto;
+import com.vahner.airticketsapp.dto.ShortAccountDto;
+import com.vahner.airticketsapp.entity.Account;
+import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountService {
 
-    List<AccountDto> getAllAccounts();
+    AccountDto getAccountById(String id);
+
+    Optional<Account> getByLogin(@NonNull String login);
+
+    List<ShortAccountDto> getAllShortAccounts();
 
     AccountDto create(AccountDto accountDto);
 
-    void updateAccount(String uuid, AccountDto accountDto);
+    void updateAccount(String id, AccountDto accountDto);
 
-    void deleteAccount(String uuid);
+    void deleteAccount(String id);
 
-    AccountDto getAccountByUUID(String uuid);
+    void changePassword(String id, String newPassword);
 
-    void changePassword(String uuid, String newPassword);
-
-    BigDecimal getAccountBalance(String uuid);
+    BigDecimal getAccountBalance(String id);
 
 }

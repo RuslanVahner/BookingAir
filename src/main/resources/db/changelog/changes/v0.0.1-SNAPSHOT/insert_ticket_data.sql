@@ -1,11 +1,6 @@
-INSERT INTO Ticket (id, data, ticket_number, service, type, price, account_id, trips_id, airport_id)
-VALUES
-    (UNHEX(REPLACE(UUID(), '-', '')),'2024-02-01 08:00:00', 234,'ECONOMY','ADULT',100.00,
-    (SELECT id FROM Account WHERE owner = 'Luca Lukas'),(SELECT id FROM Trips WHERE name_trips = 'Paris'),
-    (SELECT id FROM Airport WHERE name_airport = 'Charles de Gaulle')),
-    (UNHEX(REPLACE(UUID(), '-', '')),'2024-03-11 08:00:00', 2244,'BUSINESS','ADULT',150.00,
-     (SELECT id FROM Account WHERE owner = 'Jane Kin'),(SELECT id FROM Trips WHERE name_trips = 'Poland'),
-     (SELECT id FROM Airport WHERE name_airport = 'Fryderyk Chopin airport'));
-
-
-
+INSERT INTO ticket (id, price, purchase_time, ticket_number, flight_id, account_id, reservation_id, ticket_class, ticket_status, type)
+VALUES (UUID_TO_BIN(UUID()), 299.99, NOW(), 123456,
+        (SELECT id FROM flight WHERE name_flight = 'Paris'),
+        (SELECT id FROM account WHERE owner = 'John Doe'),
+        (SELECT id FROM reservations WHERE reservations_reference = 'REF123'),
+        'ECONOMY', 'RESERVED', 'ADULT');

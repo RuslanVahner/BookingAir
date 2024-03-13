@@ -1,43 +1,31 @@
 databaseChangeLog:
   - changeSet:
-      id: drop-airport-table
-      author: RuslanVahner
-      changes:
-        - dropTable:
-            tableName: Airport
-  - changeSet:
         id: drop-ticket-table
         author: RuslanVahner
         changes:
           - dropTable:
               tableName: Ticket
   - changeSet:
-      id: drop-airline-table
+      id: drop-reservations-table
       author: RuslanVahner
       changes:
         - dropTable:
-            tableName: Airline
+            tableName: Reservations
   - changeSet:
-      id: drop-trips-table
+      id: drop-flight-table
       author: RuslanVahner
       changes:
         - dropTable:
-            tableName: Trips
-  - changeSet:
-      id: drop-account-table
-      author: RuslanVahner
-      changes:
-        - dropTable:
-            tableName: Account
-  - changeSet:
-      id: drop-cart-table
-      author: RuslanVahner
-      changes:
-        - dropTable:
-            tableName: Cart
+            tableName: Flight
   - changeSet:
       id: drop-passenger-table
       author: RuslanVahner
       changes:
         - dropTable:
             tableName: Passenger
+  - changeSet:
+      id: drop-account-table
+      author: RuslanVahner
+      changes:
+        - dropTable:
+            tableName: Account

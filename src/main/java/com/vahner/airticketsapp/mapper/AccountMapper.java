@@ -1,11 +1,11 @@
 package com.vahner.airticketsapp.mapper;
 
 import com.vahner.airticketsapp.dto.AccountDto;
+import com.vahner.airticketsapp.dto.ShortAccountDto;
 import com.vahner.airticketsapp.entity.Account;
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import com.vahner.airticketsapp.entity.enums.Role;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
@@ -18,7 +18,15 @@ public interface AccountMapper {
     @Mapping(source = "accountStatus", target = "status", qualifiedByName = "accountStatusToString")
     Account toEntity(AccountDto dto);
 
-    void updateEntity(AccountDto accountDto, Account existingAccount);
+    @AfterMapping
+    default void updateEntity(AccountDto accountDto, @MappingTarget Account existingAccount){
+        if(accountDto.getStatus() != null){
+            existingAccount.setStatus(accountDto.getStatus());
+        }
+    }
+
+    @Mapping(target = "id", expression = "java(account.getId().toString())")
+    ShortAccountDto toShortDto(Account account);
 
     @Named("accountStatus")
     default AccountStatus stringToAccountStatus(String status) {
@@ -30,4 +38,13 @@ public interface AccountMapper {
         return status.name();
     }
 
+    @Named("stringToRole")
+    default Role stringToRole(String role) {
+        return Role.valueOf(role.toUpperCase());
+    }
+
+    @Named("roleToString")
+    default String roleToString(Role role) {
+        return role.name();
+    }
 }

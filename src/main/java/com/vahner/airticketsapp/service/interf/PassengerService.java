@@ -1,16 +1,18 @@
 package com.vahner.airticketsapp.service.interf;
 
 import com.vahner.airticketsapp.dto.PassengerDto;
+import com.vahner.airticketsapp.dto.ShortPassengerDto;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface PassengerService {
-    PassengerDto getPassengerById(String uuid);
+    PassengerDto getPassengerById(String id);
 
-    List<PassengerDto> getPassengers();
+    List<ShortPassengerDto> getAllPassengers();
 
-    PassengerDto updatePassenger(UUID uuid, PassengerDto passengerDto);
+    PassengerDto createPassenger(PassengerDto passengerDto);
 
-    void deletePassengerById(String uuid);
+    void updatePassenger(String id, PassengerDto passengerDto);
+
+    void deletePassengerById(String id);
 }

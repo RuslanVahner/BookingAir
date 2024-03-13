@@ -1,0 +1,4 @@
+INSERT INTO authority (id, authority, role)
+VALUES (UUID_TO_BIN(UUID()), 'READ_PRIVILEGE', 'PASSENGER'),
+       (UUID_TO_BIN(UUID()), 'WRITE_PRIVILEGE', 'ADMIN'),
+       (UUID_TO_BIN(UUID()), 'READ_PRIVILEGE', 'ADMIN');

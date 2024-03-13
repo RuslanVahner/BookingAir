@@ -21,9 +21,21 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
+jwt:
+   secret:
+     access: ${JWT_SECRET_ACCESS}
+     refresh: ${JWT_SECRET_REFRESH}
 
-springdoc:
-  api-docs:
-    enabled: true
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+
+  springdoc:
+    api-docs:
+      enabled: true
   swagger-ui:
     enabled: true
+

@@ -1,8 +1,8 @@
 package com.vahner.airticketsapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vahner.airticketsapp.entity.enums.ClasServiceType;
-import com.vahner.airticketsapp.entity.enums.PassegerType;
+import com.vahner.airticketsapp.entity.enums.PassengerType;
+import com.vahner.airticketsapp.entity.enums.TicketClass;
+import com.vahner.airticketsapp.entity.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,67 +23,81 @@ import java.util.UUID;
 public class Ticket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
+    private UUID ticketId;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "data")
-    private LocalDateTime data;
+    @Column(name = "purchase_time")
+    private LocalDateTime purchaseTime;
 
     @Column(name = "ticket_number")
     private int ticketNumber;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trips_id", referencedColumnName = "id")
-    private Trips trip;
+    @Column(name = "ticket_class")
+    @Enumerated(EnumType.STRING)
+    private TicketClass ticketClass;
 
-    @JsonIgnore
+    @Column(name = "ticket_status")
+    @Enumerated(EnumType.STRING)
+    private TicketStatus ticketStatus;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private PassengerType type;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airport_id", referencedColumnName = "id")
-    private Airport airport;
+    @JoinColumn(name = "flight_id", referencedColumnName = "id")
+    private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    @Column(name = "service")
-    @Enumerated(EnumType.STRING)
-    private ClasServiceType service;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_id", referencedColumnName = "id")
+    private Reservations reservation;
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private PassegerType type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
+    private Passenger passenger;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return data == ticket.data && ticketNumber == ticket.ticketNumber &&
-                Objects.equals(id, ticket.id) && Objects.equals(price, ticket.price) &&
-                service == ticket.service && type == ticket.type;
+        return ticketNumber == ticket.ticketNumber && Objects.equals(ticketId, ticket.ticketId)
+                && Objects.equals(price, ticket.price)
+                && Objects.equals(purchaseTime, ticket.purchaseTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, data, ticketNumber, service, type);
+        return Objects.hash(ticketId, price, purchaseTime, ticketNumber);
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
-                "id=" + id +
+                "id=" + ticketId +
                 ", price=" + price +
-                ", data=" + data +
-                ", numbPasseger=" + ticketNumber +
-                ", account=" + account +
-                ", trip=" + trip +
-                ", service=" + service +
+                ", purchaseTime=" + purchaseTime +
+                ", ticketNumber=" + ticketNumber +
+                ", ticketClass=" + ticketClass +
+                ", ticketStatus=" + ticketStatus +
                 ", type=" + type +
+                ", flight=" + flight +
+                ", account=" + account +
+                ", reservation=" + reservation +
+                ", passenger=" + passenger +
+                ", cart=" + cart +
                 '}';
     }
 }

@@ -1,6 +1,4 @@
-INSERT INTO Account (id, login, password, owner, balance, account_status)
-VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'lukas@yahoo.com', '12345John', 'Luca Lukas', 800.0, 'ACTIVE'),
-       (UNHEX(REPLACE(UUID(), '-', '')), 'jone@yahoo.com', '2vs23Jones', 'Uwe Fisher', 2000.0, 'BLOCKED'),
-       (UNHEX(REPLACE(UUID(), '-', '')), 'jane@gamail.com', 'mor2424', 'Jane Kin', 1000.0, 'ACTIVE');
-
+INSERT INTO account (id, login, password, balance, owner, create_account_date, account_status, role)
+VALUES (UUID_TO_BIN(UUID()), 'passenger', 'p4553', 100.00, 'John Doe', NOW(), 'ACTIVE', 'PASSENGER'),
+       (UUID_TO_BIN(UUID()), 'admin', 'a453423', 0.00, 'Ruslan Ruslan', NOW(), 'ACTIVE', 'ADMIN');
 

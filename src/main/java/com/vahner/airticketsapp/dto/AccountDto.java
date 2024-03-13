@@ -1,28 +1,30 @@
 package com.vahner.airticketsapp.dto;
 
-import jakarta.validation.constraints.Email;
+import com.vahner.airticketsapp.entity.enums.AccountStatus;
+import com.vahner.airticketsapp.validation.interf.Login;
+import com.vahner.airticketsapp.validation.interf.Password;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Value
-@AllArgsConstructor
-
+@Data
 public class AccountDto {
-    String uuid;
+    String id;
+
+    @Login
     @NotBlank(message = "Login shouldn't be null")
-    @Size(min = 5, max = 50, message = "Login should be not null and from 6 to 50 symbols")
+    @Size(min = 5, max = 50, message = "Login should be not null and from 5 to 50 symbols")
     String login;
+
+    @Password
     @NotBlank(message = "Password shouldn't be null")
-    @Size(min = 5, max = 50, message = "Password should be not null and from 6 to 50 symbols")
+    @Size(min = 5, message = "Password should be not null and from 5 symbols")
     String password;
-    String status;
+
     BigDecimal balance;
 
-    @Email
-    String email;
-    String owner;
-    String phone;
+    AccountStatus status;
+
 }

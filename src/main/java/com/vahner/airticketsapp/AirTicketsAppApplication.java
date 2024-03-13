@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication(scanBasePackages= "com.vahner.airticketsapp.repository")
+@SpringBootApplication
 public class AirTicketsAppApplication {
 
     public static void main(String[] args) {
