@@ -1,11 +1,13 @@
 package com.vahner.airticketsapp.mapper;
 
 import com.vahner.airticketsapp.dto.TicketDto;
+import com.vahner.airticketsapp.entity.Flight;
 import com.vahner.airticketsapp.entity.Ticket;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = Flight.class)
 public interface TicketMapper {
 
     @Mapping(target = "nameFlight", source = "flight.nameFlight")
@@ -18,5 +20,5 @@ public interface TicketMapper {
     @Mapping(target = "flight.arrivalDate", ignore = true)
     Ticket toEntity(TicketDto ticketDto);
 
-    void updateEntityFromDto(TicketDto ticketDto, Ticket ticket);
+    void updateEntityFromDto(TicketDto ticketDto, @MappingTarget Ticket ticket);
 }

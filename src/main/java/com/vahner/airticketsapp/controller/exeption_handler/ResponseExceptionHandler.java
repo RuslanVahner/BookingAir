@@ -3,16 +3,17 @@ package com.vahner.airticketsapp.controller.exeption_handler;
 import com.vahner.airticketsapp.dto.ErrorExtension;
 import com.vahner.airticketsapp.dto.ErrorResponse;
 import com.vahner.airticketsapp.exception.*;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
@@ -59,16 +60,20 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return handleException(HttpStatus.NOT_FOUND, "TICKET_NOT_FOUND", ex.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + " " + error.getDefaultMessage())
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
+        List<ErrorExtension> errorExtensions = ex.getFieldErrors()
+                .stream()
+                .map(filedError -> new ErrorExtension(filedError.getDefaultMessage(),
+                        String.format("invalid_%s", filedError.getField())))
                 .collect(Collectors.toList());
-
-        ErrorResponse errorResponse = new ErrorResponse("VALIDATION_ERROR", errors.stream()
-                .map(error -> new ErrorExtension(error, "VALIDATION_ERROR"))
-                .collect(Collectors.toList()));
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                new ErrorResponse(ErrorCode.VALIDATION_FAILED, errorExtensions), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AuthException.class)
@@ -79,20 +84,20 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         ), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ErrorExtension> handleExpiredJwtException(Exception e) {
-        return new ResponseEntity<>(new ErrorExtension(
-                e.getMessage(),
-               ErrorCode.JWT_EXPIRED
-        ), HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(MalformedJwtException.class)
-    public ResponseEntity<ErrorExtension> handleMalformedJwtException(Exception e) {
-        return new ResponseEntity<>(new ErrorExtension(
-                e.getMessage(),
-                ErrorCode.JWT_NOT_VALID
-        ), HttpStatus.UNAUTHORIZED);
-    }
+//    @ExceptionHandler(ExpiredJwtException.class)
+//    public ResponseEntity<ErrorExtension> handleExpiredJwtException(Exception e) {
+//        return new ResponseEntity<>(new ErrorExtension(
+//                e.getMessage(),
+//               ErrorCode.JWT_EXPIRED
+//        ), HttpStatus.UNAUTHORIZED);
+//    }
+//
+//    @ExceptionHandler(MalformedJwtException.class)
+//    public ResponseEntity<ErrorExtension> handleMalformedJwtException(Exception e) {
+//        return new ResponseEntity<>(new ErrorExtension(
+//                e.getMessage(),
+//                ErrorCode.JWT_NOT_VALID
+//        ), HttpStatus.UNAUTHORIZED);
+//    }
 
 }

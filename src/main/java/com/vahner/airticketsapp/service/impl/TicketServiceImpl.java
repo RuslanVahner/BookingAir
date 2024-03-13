@@ -1,10 +1,8 @@
 package com.vahner.airticketsapp.service.impl;
 
 import com.vahner.airticketsapp.dto.TicketDto;
-import com.vahner.airticketsapp.entity.Cart;
 import com.vahner.airticketsapp.entity.Ticket;
 import com.vahner.airticketsapp.exception.TicketNotFoundException;
-import com.vahner.airticketsapp.generator.QRCodeGenerator;
 import com.vahner.airticketsapp.mapper.TicketMapper;
 import com.vahner.airticketsapp.repository.TicketRepository;
 import com.vahner.airticketsapp.service.interf.TicketService;
@@ -24,7 +22,7 @@ public class TicketServiceImpl  implements TicketService {
 
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;
-    private final QRCodeGenerator qrCodeGenerator;
+//    private final QRCodeGenerator qrCodeGenerator;
 
     @Override
     public TicketDto getTicketById(String id) {

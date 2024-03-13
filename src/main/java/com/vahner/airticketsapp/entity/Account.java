@@ -15,10 +15,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Table(name = "account")
 @Setter
 @Getter
 @Entity
-@Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {

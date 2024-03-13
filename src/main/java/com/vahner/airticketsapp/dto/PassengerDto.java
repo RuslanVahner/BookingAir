@@ -26,7 +26,4 @@ public class PassengerDto {
     int age;
 
     String phone;
-
-    Role role;
-
 }

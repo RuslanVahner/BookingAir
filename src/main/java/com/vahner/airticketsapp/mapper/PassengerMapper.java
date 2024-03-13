@@ -3,8 +3,9 @@ package com.vahner.airticketsapp.mapper;
 import com.vahner.airticketsapp.dto.PassengerDto;
 import com.vahner.airticketsapp.dto.ShortPassengerDto;
 import com.vahner.airticketsapp.entity.Passenger;
-import com.vahner.airticketsapp.entity.enums.Role;
-import org.mapstruct.*;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface PassengerMapper {
@@ -13,7 +14,6 @@ public interface PassengerMapper {
 
     Passenger toEntity(PassengerDto passengerDto);
 
-    @Mapping(target = "id", expression = "java(account.getId().toString())")
     ShortPassengerDto toShortDto(Passenger passenger);
 
     @AfterMapping

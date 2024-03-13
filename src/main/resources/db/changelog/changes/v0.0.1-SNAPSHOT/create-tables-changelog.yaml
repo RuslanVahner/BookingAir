@@ -118,30 +118,6 @@ databaseChangeLog:
                     nullable: false
 
   - changeSet:
-      id: create-authorities-table
-      author: RuslanVahner
-      changes:
-        - createTable:
-            tableName: Authority
-            columns:
-              - column:
-                  name: id
-                  type: BINARY(16)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: authority
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: role
-                  type: ENUM( 'ADMIN', 'PASSENGER')
-                  constraints:
-                    nullable: false
-
-  - changeSet:
       id: create-flight-table
       author: RuslanVahner
       changes:

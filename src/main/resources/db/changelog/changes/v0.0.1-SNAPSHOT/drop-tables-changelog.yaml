@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-        id: drop-ticket-table
-        author: RuslanVahner
-        changes:
-          - dropTable:
-              tableName: Ticket
+      id: drop-ticket-table
+      author: RuslanVahner
+      changes:
+        - dropTable:
+            tableName: Ticket
   - changeSet:
       id: drop-reservations-table
       author: RuslanVahner
@@ -23,6 +23,12 @@ databaseChangeLog:
       changes:
         - dropTable:
             tableName: Passenger
+  - changeSet:
+      id: drop-cart-table
+      author: RuslanVahner
+      changes:
+        - dropTable:
+            tableName: Cart
   - changeSet:
       id: drop-account-table
       author: RuslanVahner

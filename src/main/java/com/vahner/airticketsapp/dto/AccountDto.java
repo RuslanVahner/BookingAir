@@ -1,6 +1,7 @@
 package com.vahner.airticketsapp.dto;
 
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
+import com.vahner.airticketsapp.entity.enums.Role;
 import com.vahner.airticketsapp.validation.interf.Login;
 import com.vahner.airticketsapp.validation.interf.Password;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 public class AccountDto {
@@ -26,5 +28,7 @@ public class AccountDto {
     BigDecimal balance;
 
     AccountStatus status;
+
+    Set<Role> role;
 
 }
