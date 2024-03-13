@@ -25,10 +25,10 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private UUID id;
 
-    @Column(name = "login", nullable = false)
+    @Column(name = "login")
     private String login;
 
     @Column(name = "password")

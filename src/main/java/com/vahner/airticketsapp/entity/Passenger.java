@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Passenger {
 
     @Id
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
