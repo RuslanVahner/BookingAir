@@ -32,8 +32,9 @@ public class AuthServiceImpl implements AuthService {
             final String refreshToken = jwtUtils.generateRefreshToken(account);
             refreshTokenRepository.save(account.getLogin(), refreshToken);
             return new JwtResponse(jwtUtils.generateAccessToken(account), refreshToken);
+        } else {
+            throw new AuthException(ErrorMessage.M_WRONG_CREDENTIALS);
         }
-        throw new AuthException(ErrorMessage.M_WRONG_CREDENTIALS);
     }
 
     @Override
