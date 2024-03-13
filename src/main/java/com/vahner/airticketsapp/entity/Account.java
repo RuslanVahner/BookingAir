@@ -26,7 +26,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private UUID accountId;
+    private UUID id;
 
     @Column(name = "login", nullable = false)
     private String login;
@@ -59,7 +59,7 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(accountId, account.accountId) && Objects.equals(login, account.login)
+        return Objects.equals(id, account.id) && Objects.equals(login, account.login)
                 && Objects.equals(balance, account.balance)
                 && Objects.equals(owner, account.owner)
                 && Objects.equals(createAccountDate, account.createAccountDate);
@@ -67,13 +67,13 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, login, balance, owner, createAccountDate);
+        return Objects.hash(id, login, balance, owner, createAccountDate);
     }
 
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + accountId +
+                "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", balance=" + balance +

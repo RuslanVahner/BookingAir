@@ -25,7 +25,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private UUID ticketId;
+    private UUID id;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -73,20 +73,20 @@ public class Ticket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return ticketNumber == ticket.ticketNumber && Objects.equals(ticketId, ticket.ticketId)
+        return ticketNumber == ticket.ticketNumber && Objects.equals(id, ticket.id)
                 && Objects.equals(price, ticket.price)
                 && Objects.equals(purchaseTime, ticket.purchaseTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketId, price, purchaseTime, ticketNumber);
+        return Objects.hash(id, price, purchaseTime, ticketNumber);
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
-                "id=" + ticketId +
+                "id=" + id +
                 ", price=" + price +
                 ", purchaseTime=" + purchaseTime +
                 ", ticketNumber=" + ticketNumber +

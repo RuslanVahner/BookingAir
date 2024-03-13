@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TicketDto {
     // Ticket class
-    String ticketId;
+    String id;
 
     BigDecimal price;
 
