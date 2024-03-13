@@ -5,8 +5,8 @@ import com.vahner.airticketsapp.exception.AuthException;
 import com.vahner.airticketsapp.exception.ErrorMessage;
 import com.vahner.airticketsapp.repository.RefreshTokenRepository;
 import com.vahner.airticketsapp.security.JwtAuthentication;
-import com.vahner.airticketsapp.security.JwtRequest;
-import com.vahner.airticketsapp.security.JwtResponse;
+import com.vahner.airticketsapp.dto.JwtRequest;
+import com.vahner.airticketsapp.dto.JwtResponse;
 import com.vahner.airticketsapp.security.JwtProvider;
 import com.vahner.airticketsapp.service.interf.AccountService;
 import com.vahner.airticketsapp.service.interf.AuthService;
@@ -29,9 +29,10 @@ public class AuthServiceImpl implements AuthService {
         final Account account = accountService.getByLogin(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException(ErrorMessage.M_ACCOUNT_NOT_FOUND));
         if (account.getPassword().equals(authRequest.getPassword())) {
+            final String accessToken = jwtUtils.generateAccessToken(account);
             final String refreshToken = jwtUtils.generateRefreshToken(account);
             refreshTokenRepository.save(account.getLogin(), refreshToken);
-            return new JwtResponse(jwtUtils.generateAccessToken(account), refreshToken);
+            return new JwtResponse(accessToken, refreshToken);
         }
         throw new AuthException(ErrorMessage.M_WRONG_CREDENTIALS);
     }

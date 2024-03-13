@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 @Data
 public class AccountDto {
-    String id;
+    String accountId;
 
     @Login
     @NotBlank(message = "Login shouldn't be null")

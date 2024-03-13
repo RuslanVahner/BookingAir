@@ -1,8 +1,8 @@
 package com.vahner.airticketsapp.service.interf;
 
 import com.vahner.airticketsapp.security.JwtAuthentication;
-import com.vahner.airticketsapp.security.JwtRequest;
-import com.vahner.airticketsapp.security.JwtResponse;
+import com.vahner.airticketsapp.dto.JwtRequest;
+import com.vahner.airticketsapp.dto.JwtResponse;
 import lombok.NonNull;
 
 public interface AuthService {

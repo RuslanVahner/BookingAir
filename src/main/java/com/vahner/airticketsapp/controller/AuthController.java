@@ -1,8 +1,8 @@
 package com.vahner.airticketsapp.controller;
 
 import com.vahner.airticketsapp.dto.RefreshJwtRequest;
-import com.vahner.airticketsapp.security.JwtRequest;
-import com.vahner.airticketsapp.security.JwtResponse;
+import com.vahner.airticketsapp.dto.JwtRequest;
+import com.vahner.airticketsapp.dto.JwtResponse;
 import com.vahner.airticketsapp.service.interf.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

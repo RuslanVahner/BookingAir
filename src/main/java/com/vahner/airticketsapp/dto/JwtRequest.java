@@ -1,4 +1,4 @@
-package com.vahner.airticketsapp.security;
+package com.vahner.airticketsapp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
