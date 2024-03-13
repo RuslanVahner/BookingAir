@@ -29,10 +29,9 @@ public class AuthServiceImpl implements AuthService {
         final Account account = accountService.getByLogin(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException(ErrorMessage.M_ACCOUNT_NOT_FOUND));
         if (account.getPassword().equals(authRequest.getPassword())) {
-            final String accessToken = jwtUtils.generateAccessToken(account);
             final String refreshToken = jwtUtils.generateRefreshToken(account);
             refreshTokenRepository.save(account.getLogin(), refreshToken);
-            return new JwtResponse(accessToken, refreshToken);
+            return new JwtResponse(jwtUtils.generateAccessToken(account), refreshToken);
         }
         throw new AuthException(ErrorMessage.M_WRONG_CREDENTIALS);
     }
