@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @Builder
 public class ShortPassengerDto {
-    String id;
-
+    String firstName;
     String lastName;
-
+    String email;
     String phone;
+    int age;
 }
