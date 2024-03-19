@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 public class AccountDto {
     String id;
-
     @Login
     @NotBlank(message = "Login shouldn't be null")
     @Size(min = 5, max = 50, message = "Login should be not null and from 5 to 50 symbols")
@@ -27,8 +26,12 @@ public class AccountDto {
 
     BigDecimal balance;
 
+    String owner;
+
     AccountStatus status;
 
     Set<Role> role;
+
+    CartDto cartDto;
 
 }

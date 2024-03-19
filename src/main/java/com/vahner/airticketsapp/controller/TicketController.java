@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Ticket Controller")
+@Tag(name = "Ticket")
 @Validated
 @RestController
 @RequestMapping("/api/tickets")

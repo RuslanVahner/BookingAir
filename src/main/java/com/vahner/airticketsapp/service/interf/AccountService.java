@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    AccountDto getAccountById(String id);
+    AccountDto getAccountWithCartById(String id);
 
     Optional<Account> getByLogin(@NonNull String login);
 

@@ -37,7 +37,7 @@ public class AccountController {
                     @ApiResponse(responseCode = "404", description = "No account was found with this id")
             })
     public ResponseEntity<AccountDto> getAccountById(@Uuid @PathVariable String id) {
-        AccountDto accountDto = accountService.getAccountById(id);
+        AccountDto accountDto = accountService.getAccountWithCartById(id);
         return new ResponseEntity<>(accountDto,HttpStatus.OK);
     }
 

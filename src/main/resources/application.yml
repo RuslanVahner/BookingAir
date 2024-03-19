@@ -4,7 +4,6 @@ server:
 spring:
   main:
     banner-mode: off
-
   datasource:
     url: ${DATASOURCE.URL}
     username: ${DATASOURCE.USERNAME}
@@ -16,15 +15,28 @@ spring:
   jpa:
     properties:
       hibernate:
-      format_sql: true
+        format_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: none
-jwt:
-   secret:
-     access: ${JWT_SECRET_ACCESS}
-     refresh: ${JWT_SECRET_REFRESH}
+
+  mail:
+    host: smtp.example.com
+    username: user@example.com
+    password: password
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+variables:
+  jwtAccessSecret: "ZSuoWTLsAyYuvfLYso9dBn9yHKInkXwdO5SH690ovLg="
+  jwtRefreshSecret: "refresh"
+  jwtExpirationMS: 432000000
 
 logging:
   level:
@@ -33,9 +45,8 @@ logging:
       springframework:
         security: DEBUG
 
-  springdoc:
-    api-docs:
-      enabled: true
-  swagger-ui:
+springdoc:
+  api-docs:
     enabled: true
-
+swagger-ui:
+  enabled: true

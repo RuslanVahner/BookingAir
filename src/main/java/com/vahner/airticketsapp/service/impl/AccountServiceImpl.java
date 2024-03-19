@@ -1,14 +1,18 @@
 package com.vahner.airticketsapp.service.impl;
 
 import com.vahner.airticketsapp.dto.AccountDto;
+import com.vahner.airticketsapp.dto.CartDto;
 import com.vahner.airticketsapp.dto.ShortAccountDto;
 import com.vahner.airticketsapp.entity.Account;
+import com.vahner.airticketsapp.entity.Cart;
 import com.vahner.airticketsapp.exception.AccountNotFoundException;
+import com.vahner.airticketsapp.exception.CartNotFoundException;
 import com.vahner.airticketsapp.exception.ErrorMessage;
 import com.vahner.airticketsapp.mapper.AccountMapper;
+import com.vahner.airticketsapp.mapper.CartMapper;
 import com.vahner.airticketsapp.repository.AccountRepository;
+import com.vahner.airticketsapp.repository.CartRepository;
 import com.vahner.airticketsapp.service.interf.AccountService;
-import com.vahner.airticketsapp.validation.interf.Password;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +30,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-
     private final AccountRepository accountRepository;
+    private final CartRepository cartRepository;
     private final AccountMapper accountMapper;
+    private final CartMapper cartMapper;
 
     /**
      * Getting information about his ID account
@@ -37,12 +42,16 @@ public class AccountServiceImpl implements AccountService {
      * @param id аккаунта.
      * @return DTO с информацией об аккаунте.
      */
-    @Override
-    public AccountDto getAccountById(String id) {
-        log.info("Getting account by ID: {}", id);
+    public AccountDto getAccountWithCartById(String id) {
+        log.info("Getting account with cart by ID: {}", id);
         Account account = accountRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
-        return accountMapper.toDto(account);
+        Cart cart = cartRepository.findByAccountId(account.getId())
+                .orElseThrow(() -> new CartNotFoundException(String.format(ErrorMessage.M_CART_NOT_FOUND, id)));
+        CartDto cartDto = cartMapper.toDto(cart);
+        AccountDto accountDto = accountMapper.toDto(account);
+        accountDto.setCartDto(cartDto);
+        return accountDto;
     }
 
     @Override
@@ -56,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
      *
      * @return Список DTO с информацией об аккаунтах.
      */
-    @Transactional(readOnly = true)
+    @Override
     public List<ShortAccountDto> getAllShortAccounts() {
         log.info("Retrieving all short account details");
         return accountRepository.findAll().stream()
@@ -65,21 +74,24 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Creates a new account with the specified data.
-     * Создает новый аккаунт с указанными данными.
+     * Создает новый аккаунт с указанными данными и инициализирует для него корзину.
      *
      * @param accountDto с данными для создания аккаунта.
      * @return DTO с информацией о созданном аккаунте.
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AccountDto create(@Password AccountDto accountDto) {
+    public AccountDto create(AccountDto accountDto) {
         log.info("Creating account: {}", accountDto);
         Account account = accountMapper.toEntity(accountDto);
         account.setBalance(BigDecimal.ZERO);
-        Account accountSave = accountRepository.save(account);
+        account = accountRepository.save(account);
 
-        return accountMapper.toDto(accountSave);
+        Cart cart = new Cart();
+        cart.setAccount(account);
+        cartRepository.save(cart);
+
+        return accountMapper.toDto(account);
     }
 
     /**
@@ -95,28 +107,8 @@ public class AccountServiceImpl implements AccountService {
         log.info("Updating account with ID {}: {}", id, accountDto);
         Account existingAccount = accountRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
-
         accountMapper.updateEntity(accountDto, existingAccount);
         accountRepository.save(existingAccount);
-
-    }
-
-    /**
-     * Method for changing the user password.
-     * Метод для изменения пароля пользователя.
-     *
-     * @param id          - аккаунта, для которого меняется пароль.
-     * @param newPassword новый пароль.
-     */
-    @Override
-    @Transactional
-    public void changePassword(String id, String newPassword) {
-        log.info("Changing password for account ID: {}", id);
-        Account account = accountRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
-
-        account.setPassword(newPassword);
-        accountRepository.save(account);
     }
 
     /**
@@ -133,6 +125,22 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.delete(account);
     }
 
+    /**
+     * Method for changing the user password.
+     * Метод для изменения пароля пользователя.
+     *
+     * @param id          - аккаунта, для которого меняется пароль.
+     * @param newPassword новый пароль.
+     */
+    @Override
+    public void changePassword(String id, String newPassword) {
+        log.info("Changing password for account ID: {}", id);
+        Account account = accountRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
+
+        account.setPassword(newPassword);
+        accountRepository.save(account);
+    }
     /**
      * Getting the current account balance by its ID.
      * Получение текущего баланса аккаунта по его ID.

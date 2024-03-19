@@ -19,4 +19,5 @@ public interface TicketService {
 
     void deleteTicketById(String id);
 
+    void sendEmailWithAttachment(String to, String subject, byte[] attachment);
 }

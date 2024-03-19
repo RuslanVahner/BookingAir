@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -38,7 +38,7 @@ public class Flight {
     private String arrivalAirport;
 
     @Column(name = "flight_time")
-    private LocalDateTime flightTime;
+    private LocalTime flightTime;
 
     @Column(name = "departure_date")
     private LocalDate departureDate;

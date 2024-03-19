@@ -4,12 +4,8 @@ import com.vahner.airticketsapp.dto.FlightDto;
 import com.vahner.airticketsapp.entity.Flight;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface FightMapper {
+public interface FlightMapper {
 
-    FlightDto toShortDto(Flight flight);
-
-    List<FlightDto> toEnti(List<Flight> flights);
+    FlightDto toDto(Flight flight);
 }

@@ -1,2 +1,5 @@
-package com.vahner.airticketsapp.dto;public class BookingRequestDto {
+package com.vahner.airticketsapp.dto;
+
+public class BookingRequestDto {
+
 }
