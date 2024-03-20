@@ -14,6 +14,5 @@ public interface AuthService {
 
     JwtAuthentication getAuthInfo();
 
-    void updateToken(String login, String newRefreshToken);
 
 }

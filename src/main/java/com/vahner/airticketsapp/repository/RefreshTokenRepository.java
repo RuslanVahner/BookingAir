@@ -1,25 +1,24 @@
 package com.vahner.airticketsapp.repository;
 
-import com.vahner.airticketsapp.entity.RefreshToken;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {
+public class RefreshTokenRepository {
 
-    Optional<RefreshToken> findByLogin(String login);
+    public static final String HASH_KEY = "REFRESH-TOKEN";
 
-    default void saveToken(String login, String refreshToken) {
-        RefreshToken token = findByLogin(login)
-                .orElse(new RefreshToken(login, refreshToken));
-        token.setLogin(login);
-        token.setToken(refreshToken);
-        save(token);
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public RefreshTokenRepository(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
-    default Optional<String> findTokenByLogin(String login) {
-        return findByLogin(login).map(RefreshToken::getToken);
+    public void save(String login, String refreshToken) {
+        redisTemplate.opsForHash().put(HASH_KEY, login, refreshToken);
+    }
+
+    public String findById(String login) {
+        return (String) redisTemplate.opsForHash().get(HASH_KEY, login);
     }
 }

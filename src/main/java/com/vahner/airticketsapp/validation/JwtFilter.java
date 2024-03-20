@@ -1,5 +1,8 @@
-package com.vahner.airticketsapp.security;
+package com.vahner.airticketsapp.validation;
 
+import com.vahner.airticketsapp.security.JwtAuthentication;
+import com.vahner.airticketsapp.generator.JwtProvider;
+import com.vahner.airticketsapp.security.JwtUtils;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,7 +21,6 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class JwtFilter extends GenericFilterBean {
-
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final JwtProvider jwtProvider;
@@ -32,7 +34,7 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         final String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        if (token != null && jwtProvider.validateToken(token, jwtProvider.getJwtAccessSecret())) {
+        if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
             final JwtAuthentication jwtTokenData = JwtUtils.generate(claims);
             jwtTokenData.setAuthenticated(true);

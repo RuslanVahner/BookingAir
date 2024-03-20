@@ -33,10 +33,16 @@ spring:
           starttls:
             enable: true
 
-variables:
-  jwtAccessSecret: "ZSuoWTLsAyYuvfLYso9dBn9yHKInkXwdO5SH690ovLg="
-  jwtRefreshSecret: "refresh"
-  jwtExpirationMS: 432000000
+#variables:
+#  jwtAccessSecret: "secret"
+#  jwtRefreshSecret: "refresh"
+#  jwtExpirationMS: 432000000
+
+
+jwt:
+  secret:
+    access: ${JWT.SECRET.ACCESS}
+    refresh: ${JWT.SECRET.REFRESH}
 
 logging:
   level:
