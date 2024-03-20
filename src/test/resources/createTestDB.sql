@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Flight(
     departure_date TIMESTAMP NOT NULL,
     arrival_date TIMESTAMP NOT NULL,
     flight_time TIME NOT NULL,
-    airline VARTCHAR(255),
+    airline VARCHAR(255),
     trips_status ENUM('ACTIVE', 'CANCELLED', 'TRANSFERRED') NOT NULL
     );
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Flight(
 CREATE TABLE IF NOT EXISTS Reservations (
     id BINARY(36) PRIMARY KEY NOT NULL,
     reservations_reference VARCHAR(255) NOT NULL,
-    reservations_date TIMESTAMP(255) NOT NULL
+    reservations_date TIMESTAMP NOT NULL
     );
 
 
@@ -60,5 +60,4 @@ CREATE TABLE IF NOT EXISTS Ticket (
     reservation_id BINARY(36),
     passenger_id BINARY(36),
     cart_id BINARY(36)
-
     );

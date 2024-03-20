@@ -7,7 +7,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.micrometer.common.lang.NonNull;
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +27,17 @@ public class JwtProvider {
 
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
-
+    private final long jwtRefreshExpirationMS;
     @Autowired
     public JwtProvider(
             @Value("${jwt.secret.access}") String jwtAccessSecret,
-            @Value("${jwt.secret.refresh}") String jwtRefreshSecret
+            @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
+            @Value("${jwt.expirations}") Long jwtRefreshExpirationMS
     ) {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
+        this.jwtRefreshExpirationMS = jwtRefreshExpirationMS;
     }
-
-
-//    @Value("${variables.jwtExpirationMS}")
-//    private long jwtRefreshExpirationMS;
-
-//    @PostConstruct
-//    public void init() {
-//        this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(rawAccessSecret));
-//        this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(rawRefreshSecret));
-//    }
-
-
 
     public String generateAccessToken(@lombok.NonNull Account account) {
         final Instant accessExpirationInstant = LocalDateTime.now()

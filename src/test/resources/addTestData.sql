@@ -1,5 +1,5 @@
 INSERT INTO Account (id, login, password, balance, create_account_date, owner, account_status, role)
-VALUES ('269c27bf-df07-11ee-873a-00155dc38cbe', 'admin', 'adminPass1', 100.00, '2023-03-10 10:53:50',
+VALUES ('269c27bf-dfaa-1177-873a-00155dc38cbe', 'admin', 'adminPass1', 100.00, '2023-03-10 10:53:50',
         'Owner Name 1', 'ACTIVE', 'ADMIN'),
        ('269c27bf-df07-11ee-873a-00155dc35abc', 'user2', 'pass2', 200.00, '2024-03-10 09:45:10',
         'Owner Name 2', 'ACTIVE', 'PASSENGER');

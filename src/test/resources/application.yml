@@ -13,6 +13,13 @@ spring:
 #    hibernate:
 #      ddl-auto: none
 
+jwt:
+  secret:
+    access: "CJUIR+3cQjBjaGM3tHzjFY5/VRyGbiVccrezNMUnM8M="
+    refresh: "Aw5EPKS75TnCgF9S5Bs7diIPmp065owR6yfCf3S2B00="
+  expirations: 432000000
+
+
   sql:
     init:
       mode: never
