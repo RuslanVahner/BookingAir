@@ -15,4 +15,6 @@ public interface PassengerService {
     void updatePassenger(String id, PassengerDto passengerDto);
 
     void deletePassengerById(String id);
+
+    List<PassengerDto> getPassengersByAccountId(String accountId);
 }

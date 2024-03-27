@@ -25,6 +25,9 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
+    private static final String CLAIM_ROLE = "role";
+    private static final String CLAIM_LOGIN = "login";
+
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
     private final long jwtRefreshExpirationMS;
@@ -49,8 +52,8 @@ public class JwtProvider {
                 .subject(account.getLogin())
                 .expiration(Date.from(accessExpirationInstant))
                 .signWith(jwtAccessSecret, Jwts.SIG.HS512)
-                .claim("roles", account.getRole())
-                .claim("login", account.getLogin())
+                .claim(CLAIM_ROLE, account.getRole())
+                .claim(CLAIM_LOGIN, account.getLogin())
                 .compact();
     }
 

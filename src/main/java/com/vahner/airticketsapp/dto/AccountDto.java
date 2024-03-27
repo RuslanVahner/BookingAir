@@ -4,6 +4,7 @@ import com.vahner.airticketsapp.entity.enums.AccountStatus;
 import com.vahner.airticketsapp.entity.enums.Role;
 import com.vahner.airticketsapp.validation.interf.Login;
 import com.vahner.airticketsapp.validation.interf.Password;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -31,6 +32,10 @@ public class AccountDto {
     AccountStatus status;
 
     Set<Role> role;
+
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email shouldn't be null")
+    String email;
 
     CartDto cartDto;
 

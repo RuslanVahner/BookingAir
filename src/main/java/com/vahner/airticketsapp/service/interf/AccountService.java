@@ -27,4 +27,5 @@ public interface AccountService {
 
     BigDecimal getAccountBalance(String id);
 
+    void save(Account account);
 }

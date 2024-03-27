@@ -6,10 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.security.auth.Subject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -21,7 +23,9 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +59,7 @@ public class JwtAuthentication implements Authentication {
     }
 
     @Override
-    public boolean implies(Subject subject){
+    public boolean implies(Subject subject) {
         return Authentication.super.implies(subject);
     }
 }

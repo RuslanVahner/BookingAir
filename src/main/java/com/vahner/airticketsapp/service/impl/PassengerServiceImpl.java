@@ -68,7 +68,7 @@ public class PassengerServiceImpl implements PassengerService {
     /**
      * Обновление информации о пассажире.
      *
-     * @param id           ID пассажира для обновления.
+     * @param id ID пассажира для обновления.
      * @param passengerDto DTO с новыми данными для пассажира.
      */
     @Override
@@ -93,5 +93,11 @@ public class PassengerServiceImpl implements PassengerService {
         Passenger passenger = passengerRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new PassengerNotFoundException(String.format(ErrorMessage.M_PASSEGER_NOT_FOUND, id)));
         passengerRepository.delete(passenger);
+    }
+
+    @Override
+    public List<PassengerDto> getPassengersByAccountId(String accountId) {
+        List<Passenger> passengers = passengerRepository.findByAccountId((UUID.fromString(accountId)));
+        return passengers.stream().map(passengerMapper::toDto).collect(Collectors.toList());
     }
 }

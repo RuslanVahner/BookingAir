@@ -22,7 +22,7 @@ public class Reservations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id;
+    private UUID reservationId;
 
     @Column(name = "reservations_reference")
     private String reservationsReference;
@@ -38,19 +38,19 @@ public class Reservations {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reservations that = (Reservations) o;
-        return Objects.equals(id, that.id) && Objects.equals(reservationsReference, that.reservationsReference)
+        return Objects.equals(reservationId, that.reservationId) && Objects.equals(reservationsReference, that.reservationsReference)
                 && Objects.equals(reservationsDate, that.reservationsDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, reservationsReference, reservationsDate);
+        return Objects.hash(reservationId, reservationsReference, reservationsDate);
     }
 
     @Override
     public String toString() {
         return "Reservations{" +
-                "id=" + id +
+                "id=" + reservationId +
                 ", reservationsReference='" + reservationsReference + '\'' +
                 ", reservationsDate=" + reservationsDate +
                 ", tickets=" + tickets +

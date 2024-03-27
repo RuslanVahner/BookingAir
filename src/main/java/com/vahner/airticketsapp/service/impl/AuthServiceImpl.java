@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     public JwtResponse login(@lombok.NonNull JwtRequest authRequest) {
         final Account account = accountService.getByLogin(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException(ErrorMessage.M_ACCOUNT_NOT_FOUND));
-        if (account.getPassword().equals(authRequest.getPassword())) {
+        if (passwordEncoder.matches(authRequest.getPassword(), account.getPassword())) {
             final String refreshToken = jwtProvider.generateRefreshToken(account);
             refreshTokenRepository.save(account.getLogin(), refreshToken);
             return new JwtResponse(jwtProvider.generateAccessToken(account), refreshToken);
@@ -68,9 +68,14 @@ public class AuthServiceImpl implements AuthService {
         throw new AuthException(ErrorMessage.M_INVALID_TOKEN);
     }
 
+    public void registerAccount(Account account) {
+        String encodedPassword = passwordEncoder.encode(account.getPassword());
+        account.setPassword(encodedPassword);
+        accountService.save(account);
+    }
+
     @Override
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
-
 }

@@ -16,6 +16,7 @@ import com.vahner.airticketsapp.service.interf.AccountService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class AccountServiceImpl implements AccountService {
     private final CartRepository cartRepository;
     private final AccountMapper accountMapper;
     private final CartMapper cartMapper;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Getting information about his ID account
@@ -98,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
      * Update the account information with the specified ID.
      * Обновление информации об аккаунте с указанным ID.
      *
-     * @param id         - аккаунта для обновления.
+     * @param id-        для обновления.
      * @param accountDto с новыми данными для аккаунта.
      */
     @Override
@@ -115,7 +117,7 @@ public class AccountServiceImpl implements AccountService {
      * Delete the account with the specified ID.
      * Удаление аккаунта с указанным ID.
      *
-     * @param id аккаунта для удаления.
+     * @param id для удаления.
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -129,23 +131,26 @@ public class AccountServiceImpl implements AccountService {
      * Method for changing the user password.
      * Метод для изменения пароля пользователя.
      *
-     * @param id          - аккаунта, для которого меняется пароль.
+     * @param id          - для которого меняется пароль.
      * @param newPassword новый пароль.
      */
     @Override
+    @Transactional
     public void changePassword(String id, String newPassword) {
         log.info("Changing password for account ID: {}", id);
         Account account = accountRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
 
-        account.setPassword(newPassword);
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        account.setPassword(passwordEncoder.encode(encodedPassword));
         accountRepository.save(account);
     }
+
     /**
      * Getting the current account balance by its ID.
      * Получение текущего баланса аккаунта по его ID.
      *
-     * @param id аккаунта.
+     * @param id .
      * @return Текущий баланс аккаунта.
      */
     @Override
@@ -155,5 +160,14 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new AccountNotFoundException(String.format(ErrorMessage.M_ACCOUNT_NOT_FOUND, id)));
 
         return account.getBalance();
+    }
+
+    @Override
+    @Transactional
+    public void save(Account account) {
+        log.info("Saving account with login: {}", account.getLogin());
+        String encodedPassword = passwordEncoder.encode(account.getPassword());
+        account.setPassword(encodedPassword);
+        accountRepository.save(account);
     }
 }

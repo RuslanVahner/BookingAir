@@ -21,7 +21,7 @@ public class Passenger {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private UUID passengerId;
 
     @Column(name = "email")
     private String email;
@@ -50,7 +50,7 @@ public class Passenger {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Passenger passenger = (Passenger) o;
-        return age == passenger.age && Objects.equals(id, passenger.id)
+        return age == passenger.age && Objects.equals(passengerId, passenger.passengerId)
                 && Objects.equals(email, passenger.email)
                 && Objects.equals(firstName, passenger.firstName)
                 && Objects.equals(lastName, passenger.lastName)
@@ -59,13 +59,13 @@ public class Passenger {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, age, phone);
+        return Objects.hash(passengerId, email, firstName, lastName, age, phone);
     }
 
     @Override
     public String toString() {
         return "Passenger{" +
-                "id=" + id +
+                "id=" + passengerId +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

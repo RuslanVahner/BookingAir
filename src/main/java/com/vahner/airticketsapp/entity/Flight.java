@@ -23,7 +23,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id;
+    private UUID flightId;
 
     @Column(name = "name_flight")
     private String nameFlight;
@@ -58,7 +58,7 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return flightNumber == flight.flightNumber && Objects.equals(id, flight.id)
+        return flightNumber == flight.flightNumber && Objects.equals(flightId, flight.flightId)
                 && Objects.equals(nameFlight, flight.nameFlight)
                 && Objects.equals(departureAirport, flight.departureAirport)
                 && Objects.equals(arrivalAirport, flight.arrivalAirport)
@@ -70,14 +70,14 @@ public class Flight {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameFlight, flightNumber, departureAirport, arrivalAirport,
+        return Objects.hash(flightId, nameFlight, flightNumber, departureAirport, arrivalAirport,
                 flightTime, departureDate, arrivalDate, airline);
     }
 
     @Override
     public String toString() {
         return "Flight{" +
-                "id=" + id +
+                "id=" + flightId +
                 ", nameFlight='" + nameFlight + '\'' +
                 ", flightNumber=" + flightNumber +
                 ", departureAirport='" + departureAirport + '\'' +

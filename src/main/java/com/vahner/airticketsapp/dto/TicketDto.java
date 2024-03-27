@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class TicketDto {
 
-    String id;
+    String ticketId;
 
     BigDecimal price;
 

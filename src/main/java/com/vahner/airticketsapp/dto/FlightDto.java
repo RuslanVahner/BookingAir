@@ -8,6 +8,7 @@ import java.time.LocalTime;
 
 @Data
 public class FlightDto {
+
     String nameFlight;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

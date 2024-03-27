@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class CartDto {
-    String id;
+    String cartId;
     List<TicketDto> tickets;
 }
