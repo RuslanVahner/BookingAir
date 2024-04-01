@@ -1,6 +1,5 @@
 package com.vahner.airticketsapp.entity.enums;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,11 +9,6 @@ public enum Role implements GrantedAuthority {
     PASSENGER("PASSENGER");
 
     private final String role;
-
-    @JsonValue
-    public String getValueRole(){
-        return role;
-    }
 
     @Override
     public String getAuthority() {

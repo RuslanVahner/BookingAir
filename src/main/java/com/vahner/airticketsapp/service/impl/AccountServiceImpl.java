@@ -13,7 +13,6 @@ import com.vahner.airticketsapp.mapper.CartMapper;
 import com.vahner.airticketsapp.repository.AccountRepository;
 import com.vahner.airticketsapp.repository.CartRepository;
 import com.vahner.airticketsapp.service.interf.AccountService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountRepository accountRepository;
     private final CartRepository cartRepository;
     private final AccountMapper accountMapper;
@@ -56,10 +55,6 @@ public class AccountServiceImpl implements AccountService {
         return accountDto;
     }
 
-    @Override
-    public Optional<Account> getByLogin(@NonNull String login) {
-        return accountRepository.findByLogin(login);
-    }
 
     /**
      * Getting lists of all accounts.
@@ -75,26 +70,6 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Создает новый аккаунт с указанными данными и инициализирует для него корзину.
-     *
-     * @param accountDto с данными для создания аккаунта.
-     * @return DTO с информацией о созданном аккаунте.
-     */
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AccountDto create(AccountDto accountDto) {
-        log.info("Creating account: {}", accountDto);
-        Account account = accountMapper.toEntity(accountDto);
-        account.setBalance(BigDecimal.ZERO);
-        account = accountRepository.save(account);
-
-        Cart cart = new Cart();
-        cart.setAccount(account);
-        cartRepository.save(cart);
-
-        return accountMapper.toDto(account);
-    }
 
     /**
      * Update the account information with the specified ID.
@@ -169,5 +144,10 @@ public class AccountServiceImpl implements AccountService {
         String encodedPassword = passwordEncoder.encode(account.getPassword());
         account.setPassword(encodedPassword);
         accountRepository.save(account);
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return false;
     }
 }

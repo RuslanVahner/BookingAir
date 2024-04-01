@@ -2,6 +2,7 @@ package com.vahner.airticketsapp.controller;
 
 import com.vahner.airticketsapp.dto.AccountDto;
 import com.vahner.airticketsapp.dto.ShortAccountDto;
+import com.vahner.airticketsapp.generator.JwtProvider;
 import com.vahner.airticketsapp.service.interf.AccountService;
 import com.vahner.airticketsapp.validation.interf.Uuid;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,10 +11,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class AccountController {
             })
     public ResponseEntity<AccountDto> getAccountById(@Uuid @PathVariable String id) {
         AccountDto accountDto = accountService.getAccountWithCartById(id);
-        return new ResponseEntity<>(accountDto,HttpStatus.OK);
+        return new ResponseEntity<>(accountDto, HttpStatus.OK);
     }
 
     @GetMapping
@@ -53,17 +54,6 @@ public class AccountController {
         return ResponseEntity.ok(accountList);
     }
 
-    @PostMapping("/createAccount")
-    @Operation(summary = "create a new account",
-            description = "creates a new account based on the provided information")
-    @ApiResponse(responseCode = "201", description = "Successfully created the account", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AccountDto.class))
-    })
-    public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody AccountDto accountDto) {
-        AccountDto createdAccount = accountService.create(accountDto);
-        return new ResponseEntity<>(createdAccount,HttpStatus.CREATED);
-    }
 
     @PutMapping("/updateAccount/{id}")
     @Operation(summary = "update account",
@@ -76,7 +66,7 @@ public class AccountController {
                     )
             )
     )
-    public ResponseEntity<String> updateAccount(@PathVariable ("id") String uuid , @RequestBody AccountDto accountDto) {
+    public ResponseEntity<String> updateAccount(@PathVariable("id") String uuid, @RequestBody AccountDto accountDto) {
         accountService.updateAccount(uuid, accountDto);
         return new ResponseEntity<>("Account updated successfully", HttpStatus.OK);
     }
@@ -88,7 +78,7 @@ public class AccountController {
     @ApiResponse(responseCode = "204", description = "Successfully deleted the account")
     public ResponseEntity<Void> deleteAccount(@Uuid @PathVariable String id) {
         accountService.deleteAccount(id);
-        return  ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getAccountBalance/{id}")

@@ -3,23 +3,18 @@ package com.vahner.airticketsapp.entity;
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
 import com.vahner.airticketsapp.entity.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Table(name = "account")
 @Setter
 @Getter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Account {
 
@@ -53,6 +48,15 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Passenger> passengers;
+
+    public Account(String login, String password) {
+        this.login = login;
+        this.password = password;
+        this.balance = BigDecimal.ZERO;
+        this.createAccountDate = LocalDate.now();
+        this.status = AccountStatus.ACTIVE;
+        this.role = Collections.singleton(Role.PASSENGER);
+    }
 
     @Override
     public boolean equals(Object o) {

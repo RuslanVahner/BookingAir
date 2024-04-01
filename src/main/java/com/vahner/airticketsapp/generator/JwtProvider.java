@@ -31,6 +31,7 @@ public class JwtProvider {
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
     private final long jwtRefreshExpirationMS;
+
     @Autowired
     public JwtProvider(
             @Value("${jwt.secret.access}") String jwtAccessSecret,
@@ -83,20 +84,26 @@ public class JwtProvider {
         return false;
     }
 
-    public Claims getClaims(@NonNull String token, @NonNull Key secKey) {
+    private SecretKey getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode((CharSequence) jwtAccessSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public Claims getClaims(String token) {
         return Jwts.parser()
-                .verifyWith((SecretKey) secKey)
+                .verifyWith(jwtAccessSecret)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    public Claims getAccessClaims(@NonNull String accessToken) {
-        return getClaims(accessToken, jwtAccessSecret);
-    }
-
-    public Claims getRefreshClaims(@NonNull String refreshToken) {
-        return getClaims(refreshToken, jwtRefreshSecret);
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public boolean validateAccessToken(@lombok.NonNull String accessToken) {
