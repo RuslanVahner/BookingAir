@@ -13,7 +13,7 @@ public interface AccountService {
 
     AccountDto getAccountWithCartById(String id);
 
-    Optional<Account> getByLogin(@NonNull String login);
+//    Optional<Account> getByLogin(@NonNull String login);
 
     List<ShortAccountDto> getAllShortAccounts();
 

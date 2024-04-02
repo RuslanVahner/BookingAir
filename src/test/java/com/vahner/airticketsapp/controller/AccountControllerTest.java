@@ -3,7 +3,6 @@ package com.vahner.airticketsapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vahner.airticketsapp.dto.AccountDto;
 import com.vahner.airticketsapp.entity.enums.AccountStatus;
-import com.vahner.airticketsapp.validation.JwtFilter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,9 +29,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @Sql(scripts = "/addTestData.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 
 class AccountControllerTest {
-
-    @MockBean
-    private JwtFilter jwtFilter;
     @Autowired
     ObjectMapper objectMapper;
     @Autowired

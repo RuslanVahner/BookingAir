@@ -16,6 +16,8 @@ import com.vahner.airticketsapp.service.interf.AccountService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -35,8 +37,13 @@ public class AccountServiceImpl implements AccountService {
     private final CartRepository cartRepository;
     private final AccountMapper accountMapper;
     private final CartMapper cartMapper;
-    private final PasswordEncoder passwordEncoder;
 
+    private final PasswordEncoder passwordEncoder = passwordEncoder();
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     /**
      * Getting information about his ID account
      * Получение информацию об аккаунте по его ID.
@@ -56,10 +63,10 @@ public class AccountServiceImpl implements AccountService {
         return accountDto;
     }
 
-    @Override
-    public Optional<Account> getByLogin(@NonNull String login) {
-        return accountRepository.findByLogin(login);
-    }
+//    @Override
+//    public Optional<Account> getByLogin(@NonNull String login) {
+//        return accountRepository.findByLogin(login);
+//    }
 
     /**
      * Getting lists of all accounts.

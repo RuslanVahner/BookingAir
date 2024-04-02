@@ -5,9 +5,9 @@ spring:
   main:
     banner-mode: off
   datasource:
-    url: ${DATASOURCE.URL}
-    username: ${DATASOURCE.USERNAME}
-    password: ${DATASOURCE.PASSWORD}
+    url: jdbc:mysql://localhost:3306/airtest
+    username: root
+    password: 12341234
 
   liquibase:
     change-log: classpath:db/changelog/changes/v0.0.1-SNAPSHOT/v0.0.1-master.xml
@@ -33,11 +33,11 @@ spring:
           starttls:
             enable: true
 
-jwt:
-  secret:
-    access: "CJUIR+3cQjBjaGM3tHzjFY5/VRyGbiVccrezNMUnM8M="
-    refresh: "Aw5EPKS75TnCgF9S5Bs7diIPmp065owR6yfCf3S2B00="
-  expirations: 432000000
+#jwt:
+#  secret:
+#    access: "CJUIR+3cQjBjaGM3tHzjFY5/VRyGbiVccrezNMUnM8M="
+#    refresh: "Aw5EPKS75TnCgF9S5Bs7diIPmp065owR6yfCf3S2B00="
+#  expirations: 432000000
 
 logging:
   level:
