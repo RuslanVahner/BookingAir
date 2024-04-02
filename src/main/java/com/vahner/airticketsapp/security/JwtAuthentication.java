@@ -3,36 +3,41 @@ package com.vahner.airticketsapp.security;
 
 import com.vahner.airticketsapp.entity.Account;
 import com.vahner.airticketsapp.entity.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
-@Service
-@NoArgsConstructor
+
+
 public class JwtAuthentication implements UserDetails {
 
-    private Account account;
-    private boolean authenticated;
-    private String login;
-    private Set<Role> roles;
+    private final Account account;
 
     public JwtAuthentication(Account account){
         this.account = account;
     }
 
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return account.getRole().stream()
+//                .map(role -> new SimpleGrantedAuthority(role.name()))
+//                .collect(Collectors.toList());
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Role> roles = account.getRole();
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
@@ -67,5 +72,4 @@ public class JwtAuthentication implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

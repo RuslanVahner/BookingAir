@@ -30,11 +30,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
-    private final CartRepository cartRepository;
-    private final AccountMapper accountMapper;
     private final CartMapper cartMapper;
+    private final AccountMapper accountMapper;
+    private final CartRepository cartRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
 
     /**
      * Getting information about his ID account
@@ -50,9 +50,7 @@ public class AccountServiceImpl implements AccountService {
         Cart cart = cartRepository.findByAccountId(account.getId())
                 .orElseThrow(() -> new CartNotFoundException(String.format(ErrorMessage.M_CART_NOT_FOUND, id)));
         CartDto cartDto = cartMapper.toDto(cart);
-        AccountDto accountDto = accountMapper.toDto(account);
-        accountDto.setCartDto(cartDto);
-        return accountDto;
+        return accountMapper.toDto(account);
     }
 
 

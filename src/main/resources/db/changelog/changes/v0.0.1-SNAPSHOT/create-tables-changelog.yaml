@@ -48,6 +48,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+
   - changeSet:
       id: create-cart-table
       author: RuslanVahner

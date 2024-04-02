@@ -2,7 +2,9 @@ package com.vahner.airticketsapp.controller;
 
 import com.vahner.airticketsapp.dto.AccountDto;
 import com.vahner.airticketsapp.dto.ShortAccountDto;
-import com.vahner.airticketsapp.generator.JwtProvider;
+import com.vahner.airticketsapp.dto.SignupRequest;
+import com.vahner.airticketsapp.entity.Account;
+import com.vahner.airticketsapp.entity.enums.Role;
 import com.vahner.airticketsapp.service.interf.AccountService;
 import com.vahner.airticketsapp.validation.interf.Uuid;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +13,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +23,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "Account Controller")
@@ -29,6 +35,8 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final PasswordEncoder passwordEncoder;
+    private ValidationErrors bindingResult;
 
     @GetMapping("/get/{id}")
     @Operation(summary = "basic account get rest method by id",
@@ -52,6 +60,25 @@ public class AccountController {
     public ResponseEntity<List<ShortAccountDto>> getAllShortAccounts() {
         List<ShortAccountDto> accountList = accountService.getAllShortAccounts();
         return ResponseEntity.ok(accountList);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest signupRequest) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
+        }
+        if (accountService.existsByLogin(signupRequest.getLogin())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Choose different login");
+        }
+       Account account = new Account();
+        account.setLogin(signupRequest.getLogin());
+        account.setBalance(BigDecimal.ZERO);
+        account.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        account.setCreateAccountDate(LocalDate.now());
+        account.setOwner(signupRequest.getLogin());
+        account.setRole(Collections.singleton(Role.PASSENGER));
+        accountService.save(account);
+        return ResponseEntity.ok("Account created");
     }
 
 

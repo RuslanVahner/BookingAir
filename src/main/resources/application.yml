@@ -19,7 +19,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
   mail:
     host: smtp.example.com
@@ -32,12 +32,12 @@ spring:
           auth: true
           starttls:
             enable: true
-
-jwt:
-  secret:
-    access: "CJUIR+3cQjBjaGM3tHzjFY5/VRyGbiVccrezNMUnM8M="
-    refresh: "Aw5EPKS75TnCgF9S5Bs7diIPmp065owR6yfCf3S2B00="
-  expirations: 432000000
+#
+#jwt:
+#  secret:
+#    access: "CJUIR+3cQjBjaGM3tHzjFY5/VRyGbiVccrezNMUnM8M="
+#    refresh: "Aw5EPKS75TnCgF9S5Bs7diIPmp065owR6yfCf3S2B00="
+#  expirations: 432000000
 
 logging:
   level:
@@ -65,10 +65,10 @@ springdoc:
   swagger-ui:
     path: /swagger-ui/index.html
 
-
-redis:
-  login: "admin"
-  password: "1595admin"
-  host: localhost
-  port: 6379
+#
+#redis:
+#  login: "admin"
+#  password: "1595admin"
+#  host: localhost
+#  port: 6379
 

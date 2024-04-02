@@ -1,11 +1,9 @@
 package com.vahner.airticketsapp.controller;
 
 
-import com.vahner.airticketsapp.dto.JwtRequest;
-import com.vahner.airticketsapp.dto.JwtResponse;
+
 import com.vahner.airticketsapp.dto.SignupRequest;
 import com.vahner.airticketsapp.entity.Account;
-import com.vahner.airticketsapp.generator.JwtProvider;
 import com.vahner.airticketsapp.service.interf.AccountService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

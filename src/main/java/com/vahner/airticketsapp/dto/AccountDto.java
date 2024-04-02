@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Data
 public class AccountDto {
+
     String id;
     @Login
     @NotBlank(message = "Login shouldn't be null")
@@ -27,8 +28,6 @@ public class AccountDto {
 
     BigDecimal balance;
 
-    String owner;
-
     AccountStatus status;
 
     Set<Role> role;
@@ -36,7 +35,5 @@ public class AccountDto {
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email shouldn't be null")
     String email;
-
-    CartDto cartDto;
 
 }
