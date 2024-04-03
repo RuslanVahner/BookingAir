@@ -2,7 +2,9 @@ package com.vahner.airticketsapp.controller.exeption_handler;
 
 import com.vahner.airticketsapp.dto.ErrorExtension;
 import com.vahner.airticketsapp.dto.ErrorResponse;
-import com.vahner.airticketsapp.exception.*;
+import com.vahner.airticketsapp.exception.BookingNotFoundException;
+import com.vahner.airticketsapp.exception.ErrorCode;
+import com.vahner.airticketsapp.exception.FlightNotFoundException;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,47 +25,50 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private ResponseEntity<ErrorResponse> handleException(HttpStatus status, String errorCode, String message) {
-        ErrorResponse errorResponse = new ErrorResponse(errorCode, List.of(new ErrorExtension(message, errorCode)));
-        return new ResponseEntity<>(errorResponse, status);
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex) {
+        List<ErrorExtension> errorExtensions = List.of(new ErrorExtension(ex.getLocalizedMessage(), "GENERAL_ERROR"));
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.DATABASE_ERROR, errorExtensions);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> handleException(Exception e) {
-        return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler(UsernameNotFoundException.class)
     @ApiResponse(responseCode = "404", description = "Not Found", content = {
             @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ErrorExtension.class))
     })
-    public ResponseEntity<ErrorExtension> handleAccountNotFoundException(AccountNotFoundException ex) {
-        ErrorExtension errorExtension = new ErrorExtension(ex.getMessage(), ErrorCode.ACCOUNT_NOT_FOUND);
-        return new ResponseEntity<>(errorExtension, HttpStatus.NOT_FOUND);
+    public final ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex) {
+        List<ErrorExtension> errorExtensions = List.of(new ErrorExtension(ex.getLocalizedMessage(), ErrorCode.USER_NOT_FOUND));
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.USER_NOT_FOUND, errorExtensions);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(PassengerNotFoundException.class)
+    @ExceptionHandler(FlightNotFoundException.class)
     @ApiResponse(responseCode = "404", description = "Not Found", content = {
             @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class))
+                    schema = @Schema(implementation = ErrorExtension.class))
     })
-    public ResponseEntity<ErrorResponse> handlePassengerNotFoundException(PassengerNotFoundException ex) {
-        return handleException(HttpStatus.NOT_FOUND, "PASSENGER_NOT_FOUND", ex.getMessage());
+    public final ResponseEntity<Object> handleFlightNotFoundException(FlightNotFoundException ex) {
+        List<ErrorExtension> errorExtensions = List.of(new ErrorExtension(ex.getLocalizedMessage(), ErrorCode.FLIGHT_NOT_FOUND));
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.FLIGHT_NOT_FOUND, errorExtensions);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(TicketNotFoundException.class)
+    @ExceptionHandler(BookingNotFoundException.class)
     @ApiResponse(responseCode = "404", description = "Not Found", content = {
             @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ErrorResponse.class))
+                    schema = @Schema(implementation = ErrorExtension.class))
     })
-    public ResponseEntity<ErrorResponse> handleTicketNotFoundException(TicketNotFoundException ex) {
-        return handleException(HttpStatus.NOT_FOUND, "TICKET_NOT_FOUND", ex.getMessage());
+    public final ResponseEntity<Object> handleBookingNotFoundException(FlightNotFoundException ex) {
+        List<ErrorExtension> errorExtensions = List.of(new ErrorExtension(ex.getLocalizedMessage(), ErrorCode.BOOKING_NOT_FOUND));
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.BOOKING_NOT_FOUND, errorExtensions);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex,
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
             HttpHeaders headers,
             HttpStatusCode status,
             WebRequest request
@@ -75,29 +81,5 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
                 new ErrorResponse(ErrorCode.VALIDATION_FAILED, errorExtensions), HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ErrorExtension> handleAuthException(Exception e) {
-        return new ResponseEntity<>(new ErrorExtension(
-                e.getMessage(),
-                ErrorCode.ACCOUNT_NOT_FOUND
-        ), HttpStatus.UNAUTHORIZED);
-    }
-
-//    @ExceptionHandler(ExpiredJwtException.class)
-//    public ResponseEntity<ErrorExtension> handleExpiredJwtException(Exception e) {
-//        return new ResponseEntity<>(new ErrorExtension(
-//                e.getMessage(),
-//               ErrorCode.JWT_EXPIRED
-//        ), HttpStatus.UNAUTHORIZED);
-//    }
-//
-//    @ExceptionHandler(MalformedJwtException.class)
-//    public ResponseEntity<ErrorExtension> handleMalformedJwtException(Exception e) {
-//        return new ResponseEntity<>(new ErrorExtension(
-//                e.getMessage(),
-//                ErrorCode.JWT_NOT_VALID
-//        ), HttpStatus.UNAUTHORIZED);
-//    }
 
 }

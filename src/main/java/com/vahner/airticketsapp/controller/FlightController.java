@@ -1,24 +1,19 @@
 package com.vahner.airticketsapp.controller;
 
-import com.vahner.airticketsapp.dto.FlightDto;
+import com.vahner.airticketsapp.dto.FlightCreateDTO;
+import com.vahner.airticketsapp.dto.FlightUpdateDTO;
 import com.vahner.airticketsapp.entity.Flight;
 import com.vahner.airticketsapp.service.interf.FlightService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Flight")
 @Validated
@@ -29,22 +24,33 @@ public class FlightController {
 
     private final FlightService flightService;
 
-    @GetMapping("/search")
-    @Operation(
-            summary = "Search flights",
-            description = "Search for flights based on departure location, arrival location, and departure date.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Successfully found flights",
-                            content = @Content(schema = @Schema(implementation = Flight.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid search parameters"),
-                    @ApiResponse(responseCode = "404", description = "No flights found matching criteria")
-            }
-    )
-    public ResponseEntity<List<FlightDto>> searchFlights(@RequestParam String departureAirport,
-                                                      @RequestParam String arrivalAirport,
-                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                      LocalDate departureDate) {
-        List<FlightDto> flights = flightService.searchFlights(departureAirport, arrivalAirport, departureDate);
+    @PostMapping("/createFlight")
+    public ResponseEntity<Flight> createFlight(@Valid @RequestBody FlightCreateDTO flightCreateDTO) {
+        Flight createdFlight = flightService.createFlight(flightCreateDTO);
+        return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Flight>> getAllFlights() {
+        List<Flight> flights = flightService.getAllFlights();
         return ResponseEntity.ok(flights);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Flight> getFlightById(@PathVariable UUID id) {
+        Flight flight = flightService.getFlightById(id);
+        return ResponseEntity.ok(flight);
+    }
+
+    @PutMapping("/updateFlight/{id}")
+    public ResponseEntity<Flight> updateFlight(@PathVariable UUID id, @RequestBody FlightUpdateDTO flightUpdateDTO) {
+        Flight updatedFlight = flightService.updateFlight(id, flightUpdateDTO);
+        return ResponseEntity.ok(updatedFlight);
+    }
+
+    @DeleteMapping("/deleteFlight/{id}")
+    public ResponseEntity<Void> deleteFlight(@PathVariable UUID id) {
+        flightService.deleteFlight(id);
+        return ResponseEntity.noContent().build();
     }
 }

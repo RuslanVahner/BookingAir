@@ -1,92 +1,84 @@
 package com.vahner.airticketsapp.entity;
 
-import com.vahner.airticketsapp.entity.enums.FlightStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "flight")
-@Setter
+@Table(name = "flights")
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Flight {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private UUID flightId;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
-    @Column(name = "name_flight")
-    private String nameFlight;
+    @Column(name = "flight_number", nullable = false, unique = true)
+    private String flightNumber;
 
-    @Column(name = "flight_number")
-    private int flightNumber;
-
-    @Column(name = "departure_airport")
+    @Column(name = "departure_airport", nullable = false)
     private String departureAirport;
 
-    @Column(name = "arrival_airport")
+    @Column(name = "arrival_airport", nullable = false)
     private String arrivalAirport;
 
-    @Column(name = "flight_time")
-    private LocalTime flightTime;
+    @Column(name = "departure_time", nullable = false)
+    private LocalDateTime departureTime;
 
-    @Column(name = "departure_date")
-    private LocalDate departureDate;
+    @Column(name = "arrival_time", nullable = false)
+    private LocalDateTime arrivalTime;
 
-    @Column(name = "arrival_date")
-    private LocalDate arrivalDate;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
-    @Column(name = "airline")
-    private String airline;
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
 
-    @Column(name = "flight_status")
-    @Enumerated(EnumType.STRING)
-    private FlightStatus flightStatus;
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return flightNumber == flight.flightNumber && Objects.equals(flightId, flight.flightId)
-                && Objects.equals(nameFlight, flight.nameFlight)
+        return Objects.equals(id, flight.id) && Objects.equals(flightNumber, flight.flightNumber)
                 && Objects.equals(departureAirport, flight.departureAirport)
                 && Objects.equals(arrivalAirport, flight.arrivalAirport)
-                && Objects.equals(flightTime, flight.flightTime)
-                && Objects.equals(departureDate, flight.departureDate)
-                && Objects.equals(arrivalDate, flight.arrivalDate)
-                && Objects.equals(airline, flight.airline);
+                && Objects.equals(departureTime, flight.departureTime)
+                && Objects.equals(arrivalTime, flight.arrivalTime)
+                && Objects.equals(price, flight.price);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(flightId, nameFlight, flightNumber, departureAirport, arrivalAirport,
-                flightTime, departureDate, arrivalDate, airline);
+        return Objects.hash(id, flightNumber, departureAirport, arrivalAirport, departureTime, arrivalTime, price);
     }
 
     @Override
     public String toString() {
         return "Flight{" +
-                "id=" + flightId +
-                ", nameFlight='" + nameFlight + '\'' +
-                ", flightNumber=" + flightNumber +
+                "id=" + id +
+                ", flightNumber='" + flightNumber + '\'' +
                 ", departureAirport='" + departureAirport + '\'' +
                 ", arrivalAirport='" + arrivalAirport + '\'' +
-                ", flightTime=" + flightTime +
-                ", departureDate=" + departureDate +
-                ", arrivalDate=" + arrivalDate +
-                ", airline='" + airline + '\'' +
-                ", flightStatus=" + flightStatus +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                ", price=" + price +
+                ", bookings=" + bookings +
+                ", reviews=" + reviews +
                 '}';
     }
 }

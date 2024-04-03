@@ -10,8 +10,9 @@ public class AirTicketsAppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AirTicketsAppApplication.class, args);
-        // http://localhost:8080/swagger-ui/swagger-ui/index.html
-        //  passenger123
-        //  1403
+        //     http://localhost:8080/swagger-ui/swagger-ui/index.html
+        //     Login: user1   Password: password1
+        //     Login: admin   Password: password2
+
     }
 }

@@ -1,12 +1,12 @@
 package com.vahner.airticketsapp.repository;
 
-import com.vahner.airticketsapp.entity.Flight;
+import com.vahner.airticketsapp.entity.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface FlightRepository extends JpaRepository<Flight, UUID> {
+public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
 }

@@ -1,26 +1,41 @@
 package com.vahner.airticketsapp.service.impl;
 
-import com.vahner.airticketsapp.entity.Account;
-import com.vahner.airticketsapp.repository.AccountRepository;
-import com.vahner.airticketsapp.security.JwtAuthentication;
+import com.vahner.airticketsapp.entity.AppUser;
+import com.vahner.airticketsapp.repository.AppUserRepository;
+import com.vahner.airticketsapp.security.Authentication;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+    private final AppUserRepository appUserRepository;
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        AppUser appUser = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//
+//        return new User(appUser.getUsername(), appUser.getPassword(), Collections.emptyList());
+//    }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<AppUser> appUser = userRepository.findByUsername(username);
+//        return appUser.map(Authentication::new)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Account> account = accountRepository.findByName(username);
-        return account.map(JwtAuthentication::new)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+        AppUser appUser = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return new Authentication(appUser);
     }
+
 }
