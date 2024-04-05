@@ -3,6 +3,7 @@ package com.vahner.airticketsapp.config;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableJpaAuditing
 @AllArgsConstructor
 public class SecurityConfig {
 
@@ -29,7 +31,11 @@ public class SecurityConfig {
             "/api/users/register",
             "/api/users/login",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/api/bookings/createBooking",
+            "/api/reviews/createReview",
+            "/api/flight/createFlight",
+            "/api/flight/"
     };
 
     private static final String[] USER_POST_MATCHERS = {
@@ -38,16 +44,12 @@ public class SecurityConfig {
             "/api/flight/createFlight"
     };
 
-    private static final String[] USER_GET_MATCHERS = {
-            "/api/bookings/**",
-            "/api/reviews/**",
-            "/api/flight/**",
-            "/api/users/**"
-
-    };
 
     private static final String[] ADMIN_MATCHERS = {
-            "/api/**"
+            "/api/users/**",
+            "/api/bookings/**",
+            "/api/reviews/**",
+            "/api/flight/**"
     };
 
     @Bean
@@ -62,7 +64,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
                         .requestMatchers(HttpMethod.POST, USER_POST_MATCHERS).hasAnyRole("USER")
-                        .requestMatchers(HttpMethod.GET, USER_GET_MATCHERS).hasAnyRole("USER")
                         .requestMatchers(ADMIN_MATCHERS).hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -80,5 +81,4 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
 }

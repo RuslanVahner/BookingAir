@@ -11,7 +11,8 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity(name = "users")
+@Table(name = "users")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor

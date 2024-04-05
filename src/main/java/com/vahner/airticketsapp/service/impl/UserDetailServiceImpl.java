@@ -14,22 +14,6 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        AppUser appUser = userRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//
-//        return new User(appUser.getUsername(), appUser.getPassword(), Collections.emptyList());
-//    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<AppUser> appUser = userRepository.findByUsername(username);
-//        return appUser.map(Authentication::new)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//    }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,5 +21,4 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return new Authentication(appUser);
     }
-
 }

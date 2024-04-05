@@ -11,6 +11,7 @@ import com.vahner.airticketsapp.service.interf.AppUserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +40,13 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser updateUser(UUID id, UserUpdateDTO userUpdateDTO) {
         log.info("Updating user with ID: {}", id);
-        AppUser appUser = appUserRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        appUserMapper.userUpdateDto(userUpdateDTO, appUser);
-        return appUserRepository.save(appUser);
+        AppUser user = appUserRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        appUserMapper.userUpdateDto(userUpdateDTO, user);
+        if (userUpdateDTO.getPassword() != null && !userUpdateDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
+        }
+        return appUserRepository.save(user);
     }
 
     @Override

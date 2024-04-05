@@ -13,12 +13,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "AppUser Controller")
+@Validated
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -75,14 +77,13 @@ public class AppUserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/{id}")
     @Operation(summary = "get a user by id",
             description = "returns a user from the database for the given id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "User found"),
                     @ApiResponse(responseCode = "404", description = "No user was found with this id")
             })
-
-    @GetMapping("/{id}")
     public ResponseEntity<AppUser> getUserById(@PathVariable UUID id) {
         AppUser appUser = appUserService.getUserById(id);
         return ResponseEntity.ok(appUser);

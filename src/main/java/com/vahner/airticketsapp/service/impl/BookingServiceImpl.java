@@ -40,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking createBooking(BookingCreateDTO bookingCreateDTO) {
-        log.info("Creating new booking");
+        log.info("Creating new booking with userId: {} and flightId: {}", bookingCreateDTO.getUserId(), bookingCreateDTO.getFlightId());
         validateBookingCreateDTO(bookingCreateDTO);
         Booking booking = bookingMapper.bookingCreateDto(bookingCreateDTO);
         return bookingRepository.save(booking);

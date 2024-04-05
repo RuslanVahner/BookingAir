@@ -31,22 +31,16 @@ public class FlightServiceImpl implements FlightService {
         return savedFlight;
     }
 
-    @Override
     public Flight updateFlight(UUID id, FlightUpdateDTO flightUpdateDTO) {
         log.info("Updating flight with ID: {}", id);
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Flight not found with id: " + id));
 
-        flight.setFlightNumber(flightUpdateDTO.getFlightNumber());
-        flight.setDepartureAirport(flightUpdateDTO.getDepartureAirport());
-        flight.setArrivalAirport(flightUpdateDTO.getArrivalAirport());
-        flight.setDepartureTime(flightUpdateDTO.getDepartureTime());
-        flight.setArrivalTime(flightUpdateDTO.getArrivalTime());
-        flight.setPrice(flightUpdateDTO.getPrice());
+        flightMapper.updateFlightFromDto(flightUpdateDTO, flight);
 
-        log.info("Flight with ID: {} updated successfully", id);
         return flightRepository.save(flight);
     }
+
 
     @Override
     public List<Flight> getAllFlights() {

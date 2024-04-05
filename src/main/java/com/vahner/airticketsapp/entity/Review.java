@@ -14,8 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "reviews")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Review {
 
     @Id
@@ -33,10 +33,16 @@ public class Review {
     private Flight flight;
 
     @Column(name = "rating", nullable = false)
-    private Integer rating;
+    private int rating;
 
     @Column(name = "comment")
     private String comment;
+
+    public Review(UUID id, int rating, String comment) {
+        this.id = id;
+        this.rating = rating;
+        this.comment = comment;
+    }
 
     @Override
     public boolean equals(Object o) {
